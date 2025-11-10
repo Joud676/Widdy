@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".intro2"
+    android:orientation="vertical"
+    android:background="#FAFAFA"
+    android:gravity="center"
+    android:padding="32dp">
+
+    <!-- الصورة -->
+    <ImageView
+        android:id="@+id/mainImage"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="48dp"
+        android:layout_marginBottom="40dp"
+        android:contentDescription="Create your wishlist"
+        android:src="@drawable/widdy_wishlist"
+        android:scaleType="fitCenter"/>
+
+    <!-- العنوان الرئيسي -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="انشئ قائمة هداياك"
+        android:textSize="32sp"
+        android:textColor="@color/pink"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/beiruti_bold"/>
+
+    <!-- النص الفرعي -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="حدد المناسبة، تاريخها، ثم انشئها!"
+        android:textSize="20sp"
+        android:textColor="@color/pink"
+        android:layout_marginBottom="60dp"
+        android:fontFamily="@font/beiruti_bold"
+        android:gravity="center"/>
+
+    <!-- منطقة الأزرار -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="24dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp">
+
+        <!-- زر التخطي -->
+        <Button
+            android:id="@+id/btnSkip"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_marginEnd="15dp"
+            android:layout_weight="1"
+            android:backgroundTint="#FFFFFF"
+            android:fontFamily="@font/beiruti_extrabold"
+            android:text="تخطي"
+            android:textColor="#a3cad1"
+            android:textSize="16sp"
+            app:cornerRadius="12dp"
+            app:strokeColor="@color/colorSkipStroke"
+            app:strokeWidth="2dp" />
+
+        <!-- زر التالي -->
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_weight="1"
+            android:text="التالي"
+            android:textSize="16sp"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#a3cad1"
+            app:cornerRadius="12dp"
+            android:fontFamily="@font/beiruti_extrabold"
+            android:padding="5dp"/>
+
+    </LinearLayout>
+
+    <!-- مؤشر الصفحات (dots) -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="16dp">
+
+        <View
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:background="@drawable/dot_inactive"
+            android:layout_margin="4dp"/>
+
+        <View
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:background="@drawable/dot_active"
+            android:layout_margin="4dp"/>
+
+        <View
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:background="@drawable/dot_inactive"
+            android:layout_margin="4dp"/>
+
+        <View
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:background="@drawable/dot_inactive"
+            android:layout_margin="4dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>
