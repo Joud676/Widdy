@@ -15,7 +15,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="هلا فيك في ودي!"
+        android:text="هلا فيك في ودّي!"
         android:textSize="50sp"
         android:textColor="@color/pink"
         android:layout_marginTop="48dp"

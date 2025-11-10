@@ -35,5 +35,6 @@ public class intro2 extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 }

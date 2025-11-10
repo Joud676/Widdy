@@ -20,5 +20,7 @@ public class intro4 extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
     }
 }
