@@ -15,6 +15,9 @@ public class intro2 extends AppCompatActivity {
 
     private Button btnNext;
 
+    private Button btnSkip;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +35,16 @@ public class intro2 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(intro2.this, intro3.class);
+                startActivity(intent);
+            }
+        });
+
+        btnSkip = findViewById(R.id.btnSkip);
+
+        btnSkip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(intro2.this, signup.class);
                 startActivity(intent);
             }
         });

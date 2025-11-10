@@ -1,6 +1,9 @@
 package com.example.widdy;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +12,11 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class intro4 extends AppCompatActivity {
+
+    private Button btnNext;
+
+    private Button btnSkip;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +28,25 @@ public class intro4 extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        btnNext = findViewById(R.id.btnNext);
 
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(intro4.this, signup.class);
+                startActivity(intent);
+            }
+        });
+
+        btnSkip = findViewById(R.id.btnSkip);
+
+        btnSkip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(intro4.this, signup.class);
+                startActivity(intent);
+            }
+        });
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 }

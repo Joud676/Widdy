@@ -14,6 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 public class intro1 extends AppCompatActivity {
 
     private Button btnNext;
+    private Button btnSkip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,16 @@ public class intro1 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(intro1.this, intro2.class);
+                startActivity(intent);
+            }
+        });
+
+        btnSkip = findViewById(R.id.btnSkip);
+
+        btnSkip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(intro1.this, signup.class);
                 startActivity(intent);
             }
         });
