@@ -5,20 +5,9 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
+    tools:context=".intro1"
     android:orientation="vertical"
-    tools:context=".MainActivity"
-    android:gravity="center"
+    android:background="#FAFAFA"
     >
 
-
-    <VideoView
-        android:id="@+id/splashScreen"
-        android:layout_width="429dp"
-        android:layout_height="343dp"
-        android:layout_gravity="center"
-        android:baselineAligned="false"
-        android:gravity="center"
-
-        />
 </LinearLayout>
