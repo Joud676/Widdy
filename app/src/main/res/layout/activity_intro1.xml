@@ -8,6 +8,117 @@
     tools:context=".intro1"
     android:orientation="vertical"
     android:background="#FAFAFA"
-    >
+    android:gravity="center"
+    android:padding="32dp">
+
+    <!-- العنوان الرئيسي -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="هلا فيك في ودي!"
+        android:textSize="50sp"
+        android:textColor="@color/pink"
+        android:layout_marginTop="48dp"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/beiruti_bold"/>
+
+    <!-- النص الفرعي -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="هنا هدايا أحلامك تصير أقرب لك"
+        android:textSize="28sp"
+        android:textColor="@color/aqua"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="48dp"
+        android:fontFamily="@font/beiruti_bold"/>
+
+    <!-- الصورة الكاملة -->
+    <ImageView
+        android:id="@+id/mainImage"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginBottom="50dp"
+        android:contentDescription="Welcome to Widdy!"
+        android:src="@drawable/welcome_widdy"
+        android:scaleType="fitCenter"/>
+
+    <!-- منطقة الأزرار -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="24dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp">
+
+        <!-- زر التخطي -->
+        <Button
+            android:id="@+id/btnSkip"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_marginEnd="15dp"
+            android:layout_weight="1"
+            android:backgroundTint="#FFFFFF"
+            android:fontFamily="@font/beiruti_extrabold"
+            android:text="تخطي"
+            android:textColor="#a3cad1"
+            android:textSize="16sp"
+            app:cornerRadius="12dp"
+            app:strokeColor="@color/colorSkipStroke"
+            app:strokeWidth="2dp" />
+
+        <!-- زر التالي -->
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_weight="1"
+            android:text="التالي"
+            android:textSize="16sp"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#a3cad1"
+            app:cornerRadius="12dp"
+            android:fontFamily="@font/beiruti_extrabold"
+            android:padding="5dp"/>
+
+    </LinearLayout>
+
+    <!-- مؤشر الصفحات (dots) -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="16dp">
+
+        <View
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:background="@drawable/dot_active"
+            android:layout_margin="4dp"/>
+
+        <View
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:background="@drawable/dot_inactive"
+            android:layout_margin="4dp"/>
+
+        <View
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:background="@drawable/dot_inactive"
+            android:layout_margin="4dp"/>
+
+        <View
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:background="@drawable/dot_inactive"
+            android:layout_margin="4dp"/>
+
+    </LinearLayout>
 
 </LinearLayout>
