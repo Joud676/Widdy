@@ -74,8 +74,8 @@
                     android:layout_width="160dp"
                     android:layout_height="160dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/widdy_wishlist"
-                    android:contentDescription="Create wishlist character"/>
+                    android:contentDescription="Create wishlist character"
+                    android:src="@drawable/widdy_wishlist" />
             </com.google.android.material.card.MaterialCardView>
 
             <!-- Occasion Name -->
@@ -184,9 +184,9 @@
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
                 app:strokeWidth="2dp"
-                app:strokeColor="#E8A4C9"
+                app:strokeColor="@color/pink"
                 android:layout_marginBottom="24dp"
-                app:cardBackgroundColor="#FFF5FB"
+                app:cardBackgroundColor="@color/babyPink"
                 android:clickable="true"
                 android:focusable="true">
 
@@ -293,7 +293,7 @@
                 android:textSize="18sp"
                 android:textColor="#FFFFFF"
                 android:fontFamily="@font/beiruti_extrabold"
-                android:backgroundTint="#E8A4C9"
+                android:backgroundTint="@color/pink2"
                 app:cornerRadius="16dp"
                 android:elevation="0dp"/>
         </LinearLayout>
