@@ -68,7 +68,7 @@
                 app:cardCornerRadius="20dp"
                 app:cardElevation="0dp"
                 android:layout_marginBottom="32dp"
-                app:cardBackgroundColor="#F0E6F6">
+                app:cardBackgroundColor="@color/babyPurple">
 
                 <ImageView
                     android:layout_width="160dp"
@@ -104,7 +104,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:hint="مثال: حفلة تخرجي من الجامعة"
-                    android:textColorHint="#CCCCCC"
+                    android:textColorHint="@color/grey"
                     android:textSize="16sp"
                     android:textColor="#333333"
                     android:fontFamily="@font/beiruti_bold"
@@ -154,7 +154,7 @@
                         android:layout_weight="1"
                         android:text="اختر التاريخ"
                         android:textSize="16sp"
-                        android:textColor="#CCCCCC"
+                        android:textColor="@color/grey"
                         android:fontFamily="@font/beiruti_bold"/>
 
                     <ImageView
@@ -214,7 +214,7 @@
                             android:layout_height="wrap_content"
                             android:text="اضغط لإضافة صورة"
                             android:textSize="16sp"
-                            android:textColor="#E8A4C9"
+                            android:textColor="@color/pink"
                             android:fontFamily="@font/beiruti_bold"/>
                     </LinearLayout>
 
@@ -255,9 +255,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="120dp"
                     android:hint="أي ملاحظات تحب تضيفها..."
-                    android:textColorHint="#CCCCCC"
+                    android:textColorHint="grey"
                     android:textSize="16sp"
-                    android:textColor="#333333"
+                    android:textColor="@color/grey"
                     android:fontFamily="@font/beiruti_bold"
                     android:background="@android:color/transparent"
                     android:padding="20dp"
