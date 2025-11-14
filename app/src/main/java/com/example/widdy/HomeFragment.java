@@ -1,10 +1,12 @@
 package com.example.widdy;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -63,5 +65,9 @@ public class HomeFragment extends Fragment {
                 .addOnFailureListener(e ->
                         Log.e("FirestoreError", "Error: " + e.getMessage()));
     }
+
+
+
+
 
 }
