@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         videoView.setOnCompletionListener(mp -> {
-        startActivity(new Intent(this, intro1.class));
+        startActivity(new Intent(this, HomePageActivity.class));
         finish();
     });
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
