@@ -81,7 +81,7 @@ public class Login extends AppCompatActivity {
                 if (task.isSuccessful()){
                     //redirect to the mainpage
                     Toast.makeText(getApplicationContext(), "تم تسجيل الدخول بنجاح", Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(Login.this, HomePageActivity.class));
+                    startActivity(new Intent(Login.this, MainActivity.class));
                     finish(); // Close login activity
                 }
                 else{
