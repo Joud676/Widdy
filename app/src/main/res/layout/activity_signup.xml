@@ -1,17 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".signup">
+    android:background="@color/babyPurple">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="signup"
-        android:textSize="50dp"
-        />
+        android:padding="24dp">
 
-</LinearLayout>
+        <!-- retune button -->
+        <ImageView
+            android:id="@+id/backBtn"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/arrow_back"
+            android:layout_gravity="start" />
+
+        <!-- picture -->
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/widdy_signup"
+            android:layout_gravity="center"
+            android:layout_marginTop="12dp" />
+
+        <!-- title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="أهلاً بك في وُدي"
+            android:textColor="@color/teal"
+            android:textSize="26sp"
+            android:fontFamily="@font/beiruti_bold"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp" />
+
+        <!-- description -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ابدأ رحلة أمنياتك الآن!"
+            android:textColor="@color/dark_teal"
+            android:textSize="30sp"
+            android:fontFamily="@font/beiruti_regular"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="20dp" />
+
+        <!-- full name field -->
+        <EditText
+            android:id="@+id/fullName"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="@drawable/rounded_input"
+            android:hint="الإسم الكامل"
+            android:textColor="@color/dark_teal"
+            android:textColorHint="@color/grey"
+            android:padding="16dp"
+            android:textDirection="rtl"
+            android:gravity="right"
+            android:fontFamily="@font/beiruti_regular" />
+
+        <!-- email field -->
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/rounded_input"
+            android:hint="البريد الإلكتروني"
+            android:textColor="@color/dark_teal"
+            android:textColorHint="@color/grey"
+            android:padding="16dp"
+            android:inputType="textEmailAddress"
+            android:textDirection="rtl"
+            android:gravity="right"
+            android:fontFamily="@font/beiruti_regular"/>
+
+        <!-- password field -->
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/rounded_input"
+            android:hint="كلمة المرور"
+            android:textColor="@color/dark_teal"
+            android:textColorHint="@color/grey"
+            android:padding="16dp"
+            android:inputType="textPassword"
+            android:textDirection="rtl"
+            android:gravity="right"
+            android:fontFamily="@font/beiruti_regular"/>
+
+        <!-- confirm password field -->
+        <EditText
+            android:id="@+id/confirmPassword"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/rounded_input"
+            android:hint="تأكيد كلمة المرور"
+            android:textColor="@color/dark_teal"
+            android:textColorHint="@color/grey"
+            android:padding="16dp"
+            android:inputType="textPassword"
+            android:textDirection="rtl"
+            android:gravity="right"
+            android:fontFamily="@font/beiruti_regular"/>
+
+        <!-- sign up button -->
+        <Button
+            android:id="@+id/signupBtn"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="22dp"
+            android:backgroundTint="@color/teal"
+            android:text="إنشاء حساب"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:fontFamily="@font/beiruti_bold" />
+
+        <!-- log in -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_marginTop="14dp">
+
+            <TextView
+                android:id="@+id/loginText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="تسجيل الدخول"
+                android:textSize="14sp"
+                android:fontFamily="@font/beiruti_bold"
+                android:textColor="@color/teal"
+                android:clickable="true"
+                android:focusable="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="هل لديك حساب بالفعل؟ "
+                android:textSize="14sp"
+                android:fontFamily="@font/beiruti_regular"
+                android:textColor="@color/dark_teal" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</ScrollView>

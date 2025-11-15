@@ -1,53 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F4F6F9"
+    android:background="@drawable/bg_home_gradient"
     android:fillViewport="true"
-    android:layoutDirection="rtl">
+    android:layoutDirection="rtl"
+    android:backgroundTint="@null">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="20dp"
-        android:layoutDirection="rtl">
+        android:layoutDirection="rtl"
+        android:backgroundTint="@null">
 
         <TextView
             android:id="@+id/tvWelcome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/beiruti_extrabold"
             android:text="أهلاً بك، رودي!"
-            android:textColor="#000000"
+            android:textColor="#425b5c"
+            android:textSize="30sp"
+            android:shadowColor="#a3cad1"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="5"
             android:layout_gravity="center"
-            android:textSize="28sp"
-            android:textStyle="bold" />
+            />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="4dp"
-            android:text="لنصنع بعض السحر"
-            android:textColor="#999999"
-            android:textSize="14sp" />
+            android:fontFamily="@font/beiruti_light"
+            android:text="لنصنع بعض السحر ✨"
+            android:textColor="#6c9ea3"
+            android:textSize="15sp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="5dp"
+            android:backgroundTint="@null">
 
             <ImageView
                 android:id="@+id/widdyCharacter"
-                android:layout_width="203dp"
-                android:layout_height="155dp"
+                android:layout_width="197dp"
+                android:layout_height="148dp"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:elevation="8dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/welcom" />
+                android:src="@drawable/home_page" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/widdyCard"
@@ -60,9 +69,11 @@
                 app:cardElevation="4dp">
 
                 <LinearLayout
+                    app:cardCornerRadius="20dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
+                    android:background="@drawable/white_board"
                     android:orientation="vertical"
                     android:paddingStart="24dp"
                     android:paddingEnd="24dp"
@@ -70,37 +81,53 @@
                     android:paddingBottom="24dp"
                     android:layoutDirection="rtl">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="ودي"
-                        android:textColor="#000000"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
                     <Button
                         android:id="@+id/btnCreateWishlist"
-                        style="?android:attr/borderlessButtonStyle"
-                        android:layout_width="match_parent"
-                        android:layout_height="56dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:background="@drawable/button_orange_bg"
+                        android:background="@drawable/btn_create_wishlist"
+                        android:backgroundTint="@null"
                         android:text="إنشاء قائمة أمنيات جديدة"
                         android:textColor="#FFFFFF"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        app:backgroundTint="@null"
+                        />
+
+
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </RelativeLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="قوائم أمنياتي"
-            android:textColor="#000000"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="32dp">
+
+            <TextView
+                android:id="@+id/titleWishlists"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/beiruti_bold"
+                android:text="قوائم أمنياتي"
+                android:textColor="#425b5c"
+                android:textSize="22sp" />
+
+            <TextView
+                android:id="@+id/btnViewAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" عرض الكل"
+                android:textColor="#425b5c"
+                android:textSize="14sp"
+                android:padding="4dp"
+                android:fontFamily="@font/beiruti_light"
+                />
+        </LinearLayout>
 
 
         <LinearLayout
@@ -126,15 +153,11 @@
                 android:text="أنشئ قائمتك الآن" />
         </LinearLayout>
 
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvWishlists"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="133dp" />
     </LinearLayout>
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

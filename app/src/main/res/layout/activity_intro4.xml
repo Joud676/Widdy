@@ -21,7 +21,7 @@
         android:layout_marginBottom="40dp"
         android:contentDescription="Privacy matters"
         android:src="@drawable/widdy_reservegift"
-        android:scaleType="fitCenter"/>
+        android:scaleType="fitCenter" />
 
     <!-- العنوان الرئيسي -->
     <TextView
