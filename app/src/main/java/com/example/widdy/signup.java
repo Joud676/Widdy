@@ -13,16 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
-
 public class signup extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
@@ -105,7 +95,7 @@ public class signup extends AppCompatActivity {
                 Toast.makeText(signup.this, "تم إنشاء الحساب بنجاح", Toast.LENGTH_LONG).show();
 
                 // انتقال إلى الـ Home Page
-                Intent intent = new Intent(signup.this, create_wishlist.class);
+                Intent intent = new Intent(signup.this, HomePageActivity.class);
                 startActivity(intent);
                 finish();
             } else {

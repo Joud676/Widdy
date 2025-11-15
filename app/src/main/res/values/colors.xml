@@ -16,4 +16,5 @@
     <color name="light_blue">#cbedf5</color>
     <color name="aqua">#a3cad1</color>
     <color name="grey">#CCCCCC</color>
+    <color name="background">#FAFAFA</color>
 </resources>

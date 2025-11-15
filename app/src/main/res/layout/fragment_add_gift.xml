@@ -261,7 +261,6 @@
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_location"
                         android:contentDescription="Location"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -315,7 +314,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:entries="@array/gift_priority"
-                android:background="@drawable/spinner_bg"
                 android:layout_marginBottom="24dp"/>
 
         </LinearLayout>
