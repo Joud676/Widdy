@@ -17,4 +17,6 @@
     <color name="aqua">#a3cad1</color>
     <color name="grey">#CCCCCC</color>
     <color name="background">#FAFAFA</color>
+    <color name="colorSkipStroke">#a3cad1</color>
+
 </resources>

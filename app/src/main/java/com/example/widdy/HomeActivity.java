@@ -4,36 +4,49 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * HomeActivity
+ * تعرض قائمة Wishlists على شكل بطاقات ديناميكية مع إمكانية التمرير.
+ */
 public class HomeActivity extends AppCompatActivity {
 
-    private LinearLayout wishlistContainer;
+    private FrameLayout wishlistContainer; // Container للبطاقات
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
-        // ربط الـ Container
-        wishlistContainer = findViewById(R.id.wishlistContainer);
+        // ربط الـ Container من XML
+        wishlistContainer = findViewById(R.id.fragment_container);
 
-        // إضافة البطاقات
+        // إضافة البطاقات الافتراضية
         addWishlistCards();
     }
 
+    /**
+     * إضافة بطاقات افتراضية
+     */
     private void addWishlistCards() {
-        // البطاقة الأولى - Birthday Wishes (Teal)
         addWishlistCard("Birthday Wishes", "5 items", "#7DD3C0", 1);
-
-        // البطاقة الثانية - Holiday Haul (Purple)
         addWishlistCard("Holiday Haul", "12 items", "#C9B8E8", 2);
     }
 
+    /**
+     * إنشاء بطاقة واحدة وإضافتها للـ Container
+     *
+     * @param title      اسم القائمة
+     * @param itemCount  عدد العناصر
+     * @param bgColor    لون الخلفية (Hex)
+     * @param wishlistId رقم تعريف القائمة
+     */
     private void addWishlistCard(String title, String itemCount, String bgColor, int wishlistId) {
         View cardView = LayoutInflater.from(this)
                 .inflate(R.layout.activity_wishlist_card_item, wishlistContainer, false);
@@ -54,31 +67,24 @@ public class HomeActivity extends AppCompatActivity {
             // startActivity(intent);
         });
 
-        // إضافة البطاقة للـ Container
         wishlistContainer.addView(cardView);
     }
+
+    // ============================================
+    // مثال مستقبلي: جلب البيانات من Database أو API
+    // ============================================
+    /*
+    private void loadWishlistsFromDatabase() {
+        List<Wishlist> wishlists = database.getAllWishlists();
+        wishlistContainer.removeAllViews();
+        for (Wishlist wishlist : wishlists) {
+            addWishlistCard(
+                    wishlist.getName(),
+                    wishlist.getItemCount() + " items",
+                    wishlist.getColor(),
+                    wishlist.getId()
+            );
+        }
+    }
+    */
 }
-
-
-// ============================================
-// إذا عندك بيانات من Database أو API:
-// ============================================
-
-// في الـ Activity:
-//private void loadWishlistsFromDatabase() {
-//    // احصل على البيانات من Database
-//    List<Wishlist> wishlists = database.getAllWishlists();
-//
-//    // امسح البطاقات القديمة
-//    wishlistContainer.removeAllViews();
-//
-//    // أضف البطاقات الجديدة
-//    for (Wishlist wishlist : wishlists) {
-//        addWishlistCard(
-//                wishlist.getName(),
-//                wishlist.getItemCount() + " items",
-//                wishlist.getColor(),
-//                wishlist.getId()
-//        );
-//    }
-//}

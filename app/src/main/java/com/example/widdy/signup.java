@@ -41,7 +41,7 @@ public class signup extends AppCompatActivity {
 
         // go to login page
         loginText.setOnClickListener(v -> {
-            Intent i = new Intent(signup.this, login.class);
+            Intent i = new Intent(signup.this, Login.class);
             startActivity(i);
         });
 

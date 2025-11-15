@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +22,9 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Transaction;
+import com.google.firebase.firestore.SetOptions;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -42,6 +44,9 @@ import okhttp3.Response;
 
 public class CreateWishlistFragment extends Fragment {
 
+    private static final String TAG = "CreateWishlist";
+    private static final int IMAGE_PICK_CODE = 100;
+
     EditText occasionNameInput, notesInput;
     TextView dateText;
     ImageView imagePreview;
@@ -52,8 +57,6 @@ public class CreateWishlistFragment extends Fragment {
     Uri selectedImageUri = null;
     FirebaseFirestore db;
     FirebaseAuth auth;
-
-    private static final int IMAGE_PICK_CODE = 100;
 
     public CreateWishlistFragment() {}
 
@@ -82,8 +85,6 @@ public class CreateWishlistFragment extends Fragment {
         createWishlistBtn.setOnClickListener(v -> saveWishlist());
 
         return view;
-
-
     }
 
     private void openDatePicker() {
@@ -122,10 +123,10 @@ public class CreateWishlistFragment extends Fragment {
     }
 
     private void saveWishlist() {
-
         FirebaseUser currentUser = auth.getCurrentUser();
         if (currentUser == null) {
             Toast.makeText(getContext(), "يجب تسجيل الدخول أولاً", Toast.LENGTH_SHORT).show();
+            Log.e(TAG, "User not logged in");
             return;
         }
 
@@ -147,11 +148,14 @@ public class CreateWishlistFragment extends Fragment {
             return;
         }
 
+        Log.d(TAG, "Starting wishlist creation for user: " + uid);
         uploadImageToImgBB(name, date, notes, uid);
     }
 
     private void uploadImageToImgBB(String name, String date, String notes, String uid) {
         try {
+            Log.d(TAG, "Starting image upload to ImgBB...");
+
             InputStream inputStream = getContext().getContentResolver().openInputStream(selectedImageUri);
             ByteArrayOutputStream buffer = new ByteArrayOutputStream();
             int nRead;
@@ -179,24 +183,39 @@ public class CreateWishlistFragment extends Fragment {
             client.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
+                    Log.e(TAG, "Image upload failed: " + e.getMessage());
                     if (getActivity() != null) {
                         getActivity().runOnUiThread(() ->
-                                Toast.makeText(getContext(), "فشل رفع الصورة", Toast.LENGTH_SHORT).show());
+                                Toast.makeText(getContext(), "فشل رفع الصورة: " + e.getMessage(), Toast.LENGTH_SHORT).show());
                     }
                 }
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
+                    Log.d(TAG, "Image upload response code: " + response.code());
+
                     if (!response.isSuccessful()) {
                         if (getActivity() != null) {
                             getActivity().runOnUiThread(() ->
-                                    Toast.makeText(getContext(), "فشل رفع الصورة", Toast.LENGTH_SHORT).show());
+                                    Toast.makeText(getContext(), "فشل رفع الصورة: " + response.code(), Toast.LENGTH_SHORT).show());
                         }
                         return;
                     }
 
                     String respStr = response.body().string();
+                    Log.d(TAG, "Image upload response: " + respStr);
                     String imageUrl = extractImageUrl(respStr);
+
+                    if (imageUrl.isEmpty()) {
+                        Log.e(TAG, "Failed to extract image URL from response");
+                        if (getActivity() != null) {
+                            getActivity().runOnUiThread(() ->
+                                    Toast.makeText(getContext(), "فشل استخراج رابط الصورة", Toast.LENGTH_SHORT).show());
+                        }
+                        return;
+                    }
+
+                    Log.d(TAG, "Image URL extracted: " + imageUrl);
 
                     Map<String, Object> wishlist = new HashMap<>();
                     wishlist.put("name", name);
@@ -206,12 +225,13 @@ public class CreateWishlistFragment extends Fragment {
                     wishlist.put("userId", uid);
                     wishlist.put("createdAt", System.currentTimeMillis());
 
-                    saveWishlistWithNumber(wishlist);
+                    saveWishlistToFirestore(wishlist);
                 }
             });
         } catch (Exception e) {
+            Log.e(TAG, "Exception during image upload: " + e.getMessage());
             e.printStackTrace();
-            Toast.makeText(getContext(), "حدث خطأ أثناء رفع الصورة", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "حدث خطأ أثناء رفع الصورة: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -224,31 +244,58 @@ public class CreateWishlistFragment extends Fragment {
         return "";
     }
 
-    private void saveWishlistWithNumber(Map<String, Object> wishlist) {
-        db.runTransaction((Transaction.Function<Void>) transaction -> {
-            DocumentReference counterRef = db.collection("metadata").document("wishlistCounter");
+    private void saveWishlistToFirestore(Map<String, Object> wishlist) {
+        Log.d(TAG, "Starting to save wishlist to Firestore...");
 
-            Long current = transaction.get(counterRef).getLong("counter");
-            if (current == null) current = 0L;
-            long newNumber = current + 1;
+        FirebaseUser currentUser = auth.getCurrentUser();
+        if (currentUser == null) return;
+        String uid = currentUser.getUid();
 
-            transaction.update(counterRef, "counter", newNumber);
+        db.collection("wishlists")
+                .whereEqualTo("userId", uid)
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    long count = querySnapshot.size();
+                    String docId = "wishlist" + (count + 1);
 
-            String docId = "wishlist" + newNumber;
-            DocumentReference wishlistRef = db.collection("wishlists").document(docId);
-            transaction.set(wishlistRef, wishlist);
+                    Log.d(TAG, "Generated document ID: " + docId);
 
-            return null;
-        }).addOnSuccessListener(unused -> {
-            if (getActivity() != null) {
-                getActivity().runOnUiThread(() ->
-                        Toast.makeText(getContext(), "تم إنشاء القائمة بنجاح", Toast.LENGTH_SHORT).show());
-            }
-        }).addOnFailureListener(e -> {
-            if (getActivity() != null) {
-                getActivity().runOnUiThread(() ->
-                        Toast.makeText(getContext(), "خطأ في إنشاء القائمة", Toast.LENGTH_SHORT).show());
-            }
-        });
+                    db.collection("wishlists")
+                            .document(docId)
+                            .set(wishlist)
+                            .addOnSuccessListener(unused -> {
+                                Log.d(TAG, "✓ Wishlist saved successfully!");
+
+                                if (getActivity() != null) {
+                                    getActivity().runOnUiThread(() -> {
+                                        Toast.makeText(getContext(), "تم إنشاء القائمة بنجاح ✓", Toast.LENGTH_SHORT).show();
+
+                                        // Clear form
+                                        occasionNameInput.setText("");
+                                        notesInput.setText("");
+                                        dateText.setText("اختر التاريخ");
+                                        dateText.setTextColor(getResources().getColor(R.color.grey));
+                                        imagePreview.setVisibility(View.GONE);
+                                        imagePlaceholder.setVisibility(View.VISIBLE);
+                                        selectedImageUri = null;
+                                    });
+                                }
+                            })
+                            .addOnFailureListener(e -> {
+                                Log.e(TAG, "✗ Failed to save wishlist: " + e.getMessage(), e);
+                                if (getActivity() != null) {
+                                    getActivity().runOnUiThread(() ->
+                                            Toast.makeText(getContext(), "خطأ في حفظ القائمة: " + e.getMessage(), Toast.LENGTH_LONG).show());
+                                }
+                            });
+
+                })
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "Failed to count existing wishlists: " + e.getMessage(), e);
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(() ->
+                                Toast.makeText(getContext(), "خطأ في إنشاء معرف القائمة", Toast.LENGTH_LONG).show());
+                    }
+                });
     }
 }

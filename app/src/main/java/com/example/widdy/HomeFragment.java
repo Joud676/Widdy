@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -46,6 +47,21 @@ public class HomeFragment extends Fragment {
 
         loadWishlists();
 
+        Button btn = view.findViewById(R.id.btnViewAll);
+
+        btn.setOnClickListener(v -> {
+            HomePageActivity activity = (HomePageActivity) getActivity();
+            activity.openWishlists(v);
+        });
+
+        Button btnCreateWishlist = view.findViewById(R.id.btnCreateWishlist);
+
+        btnCreateWishlist.setOnClickListener(v -> {
+            HomePageActivity activity = (HomePageActivity) getActivity();
+            activity.openCreateWishlists(v);
+        });
+
+
         return view;
     }
 
@@ -65,6 +81,7 @@ public class HomeFragment extends Fragment {
                 .addOnFailureListener(e ->
                         Log.e("FirestoreError", "Error: " + e.getMessage()));
     }
+
 
 
 

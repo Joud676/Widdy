@@ -16,14 +16,12 @@
         android:background="@android:color/transparent"
         app:backgroundTint="@null"/>
 
-
-
     <LinearLayout
 
         android:id="@+id/bottomBar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@drawable/buttom_bar"
+        android:background="@drawable/card_white"
         android:padding="5dp"
         android:elevation="8dp"
         android:gravity="center"
@@ -44,10 +42,10 @@
             <ImageView
                 android:id="@+id/icon_profile"
                 android:layout_width="36dp"
-                android:layout_height="40dp"
-                android:src="@drawable/profile_icon"
-                app:tint="#6c9ea3"
-                android:alpha="0.8" />
+                android:layout_height="33dp"
+                android:src="@drawable/user"
+                android:alpha="0.8"
+                android:contentDescription="User Profile"/>
         </LinearLayout>
 
         <!-- Middle Icon is bigger (gift icon) -->
@@ -63,12 +61,13 @@
                 android:id="@+id/icon_gift"
                 android:layout_width="72dp"
                 android:layout_height="72dp"
-                android:background="@drawable/circle_bg_pink"
+                android:background="@drawable/rounded_input"
                 android:elevation="10dp"
                 android:padding="8dp"
-                android:src="@drawable/gift_icon"
+                android:src="@drawable/gift"
                 android:translationY="-10dp"
-                android:onClick="openHome"/>
+                android:onClick="openHome"
+                android:contentDescription="Home Page"/>
         </LinearLayout>
 
         <LinearLayout
@@ -79,11 +78,12 @@
 
             <ImageView
                 android:id="@+id/icon_home"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:alpha="0.8"
-                android:src="@drawable/list_icon"
-                android:onClick="openWishlists"/>
+                android:src="@drawable/settings"
+                android:onClick="openWishlists"
+                android:contentDescription="Settings"/>
         </LinearLayout>
 
     </LinearLayout>

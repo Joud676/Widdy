@@ -13,7 +13,7 @@ public class HomePageActivity extends AppCompatActivity {
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_container, new CreateWishlistFragment())
+                .replace(R.id.fragment_container, new HomeFragment())
                 .commit();
     }
 

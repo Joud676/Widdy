@@ -19,7 +19,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/arrow_back"
-            android:layout_gravity="start" />
+            android:layout_gravity="end" />
 
         <!-- picture -->
         <ImageView
@@ -33,7 +33,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="أهلاً بك في وُدي"
+            android:text="أهلاً بك في ودّي"
             android:textColor="@color/teal"
             android:textSize="26sp"
             android:fontFamily="@font/beiruti_bold"
@@ -46,8 +46,8 @@
             android:layout_height="wrap_content"
             android:text="ابدأ رحلة أمنياتك الآن!"
             android:textColor="@color/dark_teal"
-            android:textSize="30sp"
-            android:fontFamily="@font/beiruti_regular"
+            android:textSize="20sp"
+            android:fontFamily="@font/beiruti_medium"
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="20dp" />
@@ -135,6 +135,15 @@
             android:layout_gravity="center"
             android:layout_marginTop="14dp">
 
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="هل لديك حساب بالفعل؟ "
+                android:textSize="14sp"
+                android:fontFamily="@font/beiruti_regular"
+                android:textColor="@color/dark_teal" />
+
             <TextView
                 android:id="@+id/loginText"
                 android:layout_width="wrap_content"
@@ -146,13 +155,7 @@
                 android:clickable="true"
                 android:focusable="true" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="هل لديك حساب بالفعل؟ "
-                android:textSize="14sp"
-                android:fontFamily="@font/beiruti_regular"
-                android:textColor="@color/dark_teal" />
+
         </LinearLayout>
 
 
