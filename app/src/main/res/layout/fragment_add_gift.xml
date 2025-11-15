@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddGiftFragment"
+    android:background="#FAFAFA"
+    android:layoutDirection="rtl">
+
+    <!-- Top Bar -->
+    <LinearLayout
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="20dp"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layoutDirection="ltr">
+
+        <ImageView
+            android:id="@+id/backButton"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/arrow_back"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="Back"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="إضافة هدية"
+            android:textSize="22sp"
+            android:textColor="#333333"
+            android:fontFamily="@font/beiruti_bold"
+            android:gravity="center"/>
+
+        <View
+            android:layout_width="32dp"
+            android:layout_height="32dp"/>
+    </LinearLayout>
+
+    <!-- Scrollable Content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/topBar"
+        app:layout_constraintBottom_toTopOf="@id/addGiftButton">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <!-- Gift Name -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="اسم الهدية"
+                android:textSize="16sp"
+                android:textColor="#666666"
+                android:fontFamily="@font/beiruti_bold"
+                android:layout_marginBottom="8dp"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:strokeWidth="0dp"
+                android:layout_marginBottom="24dp"
+                app:cardBackgroundColor="#FFFFFF">
+
+                <EditText
+                    android:id="@+id/giftNameInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:hint="مثال: ساعة ذكية"
+                    android:textColorHint="@color/grey"
+                    android:textSize="16sp"
+                    android:textColor="#333333"
+                    android:fontFamily="@font/beiruti_bold"
+                    android:background="@android:color/transparent"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:inputType="text"
+                    android:maxLines="1"/>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Gift Image -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="صورة الهدية"
+                android:textSize="16sp"
+                android:textColor="#666666"
+                android:fontFamily="@font/beiruti_bold"
+                android:layout_marginBottom="8dp"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/imageCard"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="2dp"
+                app:strokeColor="@color/pink"
+                android:layout_marginBottom="24dp"
+                app:cardBackgroundColor="@color/babyPink"
+                android:clickable="true"
+                android:focusable="true">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:id="@+id/imagePlaceholder"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:src="@drawable/widdy_upload"
+                            android:contentDescription="Add image"
+                            android:layout_marginBottom="15dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="اضغط لإضافة صورة"
+                            android:textSize="16sp"
+                            android:textColor="@color/pink"
+                            android:fontFamily="@font/beiruti_bold"/>
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/imagePreview"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone"
+                        android:contentDescription="Selected image"/>
+                </FrameLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Expected Price -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="السعر المتوقع"
+                android:textSize="16sp"
+                android:textColor="#666666"
+                android:fontFamily="@font/beiruti_bold"
+                android:layout_marginBottom="8dp"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:strokeWidth="0dp"
+                android:layout_marginBottom="24dp"
+                app:cardBackgroundColor="#FFFFFF">
+
+                <EditText
+                    android:id="@+id/expectedPriceInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:hint="مثال: 250 ريال"
+                    android:textColorHint="@color/grey"
+                    android:textSize="16sp"
+                    android:textColor="#333333"
+                    android:fontFamily="@font/beiruti_bold"
+                    android:background="@android:color/transparent"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:inputType="number"
+                    android:maxLines="1"/>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Short Description -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="وصف مختصر"
+                android:textSize="16sp"
+                android:textColor="#666666"
+                android:fontFamily="@font/beiruti_bold"
+                android:layout_marginBottom="8dp"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:strokeWidth="0dp"
+                android:layout_marginBottom="24dp"
+                app:cardBackgroundColor="#FFFFFF">
+
+                <EditText
+                    android:id="@+id/shortDescriptionInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:hint="مثال: هدية تقنية مميزة لصديقي"
+                    android:textColorHint="@color/grey"
+                    android:textSize="16sp"
+                    android:textColor="#333333"
+                    android:fontFamily="@font/beiruti_bold"
+                    android:background="@android:color/transparent"
+                    android:padding="20dp"
+                    android:inputType="textMultiLine"
+                    android:gravity="top"
+                    android:maxLines="4"/>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Store Location -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="موقع المحل المقترح"
+                android:textSize="16sp"
+                android:textColor="#666666"
+                android:fontFamily="@font/beiruti_bold"
+                android:layout_marginBottom="8dp"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/locationCard"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:cardCornerRadius="16dp"
+                android:layout_marginBottom="24dp"
+                app:cardBackgroundColor="#FFFFFF"
+                android:clickable="true"
+                android:focusable="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp">
+
+                    <TextView
+                        android:id="@+id/locationText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="اختر الموقع"
+                        android:textSize="16sp"
+                        android:textColor="@color/grey"
+                        android:fontFamily="@font/beiruti_bold"/>
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_location"
+                        android:contentDescription="Location"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Product Link -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="رابط المنتج"
+                android:textSize="16sp"
+                android:textColor="#666666"
+                android:fontFamily="@font/beiruti_bold"
+                android:layout_marginBottom="8dp"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:strokeWidth="0dp"
+                android:layout_marginBottom="24dp"
+                app:cardBackgroundColor="#FFFFFF">
+
+                <EditText
+                    android:id="@+id/productLinkInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:hint="مثال: https://example.com"
+                    android:textColorHint="@color/grey"
+                    android:textSize="16sp"
+                    android:textColor="#333333"
+                    android:fontFamily="@font/beiruti_bold"
+                    android:background="@android:color/transparent"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:inputType="textUri"
+                    android:maxLines="1"/>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Gift Priority -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="أولوية الهدية"
+                android:textSize="16sp"
+                android:textColor="#666666"
+                android:fontFamily="@font/beiruti_bold"
+                android:layout_marginBottom="8dp"/>
+
+            <Spinner
+                android:id="@+id/prioritySpinner"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:entries="@array/gift_priority"
+                android:background="@drawable/spinner_bg"
+                android:layout_marginBottom="24dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Add Gift Button -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/addGiftButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="8dp"
+        app:cardBackgroundColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <Button
+                android:id="@+id/saveGiftBtn"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:text="إضافة الهدية"
+                android:textSize="18sp"
+                android:textColor="#FFFFFF"
+                android:fontFamily="@font/beiruti_extrabold"
+                android:backgroundTint="@color/pink2"
+                app:cornerRadius="16dp"
+                android:elevation="0dp"/>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

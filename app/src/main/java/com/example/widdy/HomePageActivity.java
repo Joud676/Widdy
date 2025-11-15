@@ -38,6 +38,13 @@ public class HomePageActivity extends AppCompatActivity {
                 .commit();
     }
 
+    public void openAddGift(View view) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, new AddGiftFragment())
+                .commit();
+    }
+
     public void openProfile(View view) {
     }
 }
