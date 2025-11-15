@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/main"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="16dp"
+    android:background="#F7F7F7">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- الصورة -->
+        <ImageView
+            android:id="@+id/loginImage"
+            android:src="@drawable/login"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="20dp"
+            android:contentDescription="صورة توضح لوقو تسجيل الدخول"
+        />
+
+        <!-- اهلاً بك -->
+        <TextView
+            android:text="اهلا بك في ودي"
+            android:textSize="22sp"
+            android:textColor="#3AA7A1"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/beiruti_bold"
+            />
+
+        <!-- سجل دخولك لإدارة هداياك -->
+        <TextView
+            android:text="سجل دخولك لإدارة هداياك"
+            android:textSize="16sp"
+            android:textColor="#444444"
+            android:layout_marginTop="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/beiruti_light"/>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="20dp"
+            app:strokeWidth="2dp"
+            app:strokeColor="#C5E8E6"
+            app:cardBackgroundColor="@android:color/white">
+        <!-- إدخال الإيميل -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="2dp"
+            >
+
+            <ImageView
+                android:src="@drawable/email_icon"
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="12dp"
+                android:contentDescription="صورة توضح انها خانة ألايميل"
+                 />
+
+            <EditText
+                android:id="@+id/email_Login"
+                android:hint="أدخل إيميلك الشخصي"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                android:background="@android:color/transparent"
+                android:layout_marginEnd="45dp"
+                android:textDirection="rtl"
+                android:gravity="right|center_vertical"
+                android:inputType="textEmailAddress"/>
+        </RelativeLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="20dp"
+            app:strokeWidth="2dp"
+            app:strokeColor="#C5E8E6"
+            app:cardBackgroundColor="@android:color/white">
+
+        <!-- إدخال كلمة المرور -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+           >
+
+            <ImageView
+                android:src="@drawable/password_icon"
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="12dp"
+                android:contentDescription="صورة توضح انها خانة كلمة المرور"
+
+                />
+
+            <EditText
+                android:id="@+id/password_Login"
+                android:hint="أدخل كلمة المرور"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:layout_marginEnd="45dp"
+                android:padding="10dp"
+                android:textDirection="rtl"
+                android:gravity="right|center_vertical"
+                android:autofillHints=""
+                android:inputType="textPassword"/>
+        </RelativeLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <!-- نسيت كلمة المرور -->
+
+        <!-- زر تسجيل الدخول -->
+        <TextView
+            android:id="@+id/tvForgot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginTop="12dp"
+            android:text="نسيت كلمة المرور ؟"
+            android:textColor="#5A5A5A"
+            android:textSize="14sp"
+            android:fontFamily="@font/beiruti_regular"/>
+
+        <Button
+            android:id="@+id/btnLogin"
+            android:layout_width="119dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="#3AA7A1"
+            android:text="تسجيل دخول"
+            android:textColor="@android:color/white"
+            android:onClick="loginMethod" />
+
+        <!-- أو -->
+        <TextView
+            android:text="أو"
+            android:textSize="15sp"
+            android:textColor="#777"
+            android:layout_marginTop="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <!-- إنشاء حساب -->
+        <TextView
+            android:id="@+id/tvCreate"
+            android:text="إنشئ حساب"
+            android:textColor="#3AA7A1"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_marginTop="6dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="sinupPage"
+            />
+
+    </LinearLayout>
+</ScrollView>
