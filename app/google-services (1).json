@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "373732993171",
+    "project_id": "widdy-6e135",
+    "storage_bucket": "widdy-6e135.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:373732993171:android:733347f8ba22b3e62fc566",
+        "android_client_info": {
+          "package_name": "com.example.widdy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDigF7MDM2acCrFQAeMOcuf7y4rHW6ysMs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -33,7 +33,7 @@ public class intro4 extends AppCompatActivity {
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(intro4.this, signup.class);
+                Intent intent = new Intent(intro4.this, CreateWishlistFragment.class);
                 startActivity(intent);
             }
         });
@@ -43,7 +43,7 @@ public class intro4 extends AppCompatActivity {
         btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(intro4.this, signup.class);
+                Intent intent = new Intent(intro4.this, CreateWishlistFragment.class);
                 startActivity(intent);
             }
         });

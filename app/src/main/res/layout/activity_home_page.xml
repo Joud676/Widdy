@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:clipToPadding="false"
+    android:clipChildren="false"
+
+    android:background="#F4F6F9">
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottomBar"
+        android:background="@android:color/transparent"
+        app:backgroundTint="@null"/>
+
+
+
+    <LinearLayout
+
+        android:id="@+id/bottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/buttom_bar"
+        android:padding="5dp"
+        android:elevation="8dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_gravity="bottom"
+        android:layout_margin="12dp"
+        android:clipToPadding="false"
+        android:clipChildren="false"
+        android:layout_alignParentBottom="true"
+        app:backgroundTint="@null">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/icon_profile"
+                android:layout_width="36dp"
+                android:layout_height="40dp"
+                android:src="@drawable/profile_icon"
+                app:tint="#6c9ea3"
+                android:alpha="0.8" />
+        </LinearLayout>
+
+        <!-- Middle Icon is bigger (gift icon) -->
+        <LinearLayout
+            android:layout_width="21dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/icon_gift"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:background="@drawable/circle_bg_pink"
+                android:elevation="10dp"
+                android:padding="8dp"
+                android:src="@drawable/gift_icon"
+                android:translationY="-10dp"
+                android:onClick="openHome"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/icon_home"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:alpha="0.8"
+                android:src="@drawable/list_icon"
+                android:onClick="openWishlists"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>
