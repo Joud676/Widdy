@@ -13,7 +13,7 @@ public class HomePageActivity extends AppCompatActivity {
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_container, new HomeFragment())
+                .replace(R.id.fragment_container, new CreateWishlistFragment())
                 .commit();
     }
 
@@ -28,6 +28,13 @@ public class HomePageActivity extends AppCompatActivity {
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container, new AllWishlistsFragment())
+                .commit();
+    }
+
+    public void openCreateWishlists(View view) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, new CreateWishlistFragment())
                 .commit();
     }
 

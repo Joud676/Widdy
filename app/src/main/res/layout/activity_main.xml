@@ -11,14 +11,12 @@
     android:gravity="center"
     >
 
-
     <VideoView
         android:id="@+id/splashScreen"
         android:layout_width="429dp"
         android:layout_height="343dp"
         android:layout_gravity="center"
         android:baselineAligned="false"
-        android:gravity="center"
-
-        />
+        android:gravity="center"/>
+    
 </LinearLayout>
