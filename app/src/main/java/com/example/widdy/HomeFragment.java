@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.widdy.model.WishlistModel;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -63,11 +64,17 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadWishlists() {
-        firestore.collection("wishlists")
+
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        firestore.collection("users")
+                .document(uid)
+                .collection("wishlists")
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
 
                     list.clear();
+
                     for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
                         WishlistModel model = doc.toObject(WishlistModel.class);
                         list.add(model);
@@ -78,6 +85,7 @@ public class HomeFragment extends Fragment {
                 .addOnFailureListener(e ->
                         Log.e("FirestoreError", "Error: " + e.getMessage()));
     }
+
 
 
 

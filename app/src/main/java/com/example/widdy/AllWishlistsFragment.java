@@ -6,11 +6,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.widdy.model.WishlistModel;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -45,14 +47,25 @@ public class AllWishlistsFragment extends Fragment {
     }
 
     private void loadWishlists() {
-        firestore.collection("wishlists")
+
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        firestore.collection("users")
+                .document(uid)
+                .collection("wishlists")
                 .get()
                 .addOnSuccessListener(snapshots -> {
+
                     list.clear();
+
                     for (QueryDocumentSnapshot doc : snapshots) {
                         list.add(doc.toObject(WishlistModel.class));
                     }
+
                     adapter.notifyDataSetChanged();
-                });
+                })
+                .addOnFailureListener(e ->
+                        Log.e("FirestoreError", "Error: " + e.getMessage()));
     }
+
 }
