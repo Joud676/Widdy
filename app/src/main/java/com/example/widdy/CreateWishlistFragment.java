@@ -22,7 +22,8 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -59,7 +60,8 @@ public class CreateWishlistFragment extends Fragment {
     FirebaseFirestore db;
     FirebaseAuth auth;
 
-    public CreateWishlistFragment() {}
+    public CreateWishlistFragment() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -284,12 +286,22 @@ public class CreateWishlistFragment extends Fragment {
     }
 
     private void saveWishlistToFirestore(Map<String, Object> wishlist) {
-        Log.d(TAG, "Starting to save wishlist to Firestore...");
-        Log.d(TAG, "Access Code: " + wishlist.get("accessCode"));
 
-        db.collection("wishlists")
+        FirebaseUser currentUser = auth.getCurrentUser();
+        if (currentUser == null) {
+            Toast.makeText(getContext(),"يجب تسجيل الدخول", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String uid = currentUser.getUid();
+
+        // العدّ لتحديد رقم الوثيقة الجديد wishlist1, wishlist2 ...
+        db.collection("users")
+                .document(uid)
+                .collection("wishlists")
                 .get()
                 .addOnSuccessListener(querySnapshot -> {
+
                     int maxNumber = 0;
                     Pattern pattern = Pattern.compile("^wishlist(\\d+)$");
 
@@ -298,51 +310,28 @@ public class CreateWishlistFragment extends Fragment {
                         Matcher matcher = pattern.matcher(docId);
                         if (matcher.matches()) {
                             int number = Integer.parseInt(matcher.group(1));
-                            if (number > maxNumber) {
-                                maxNumber = number;
-                            }
+                            if (number > maxNumber) maxNumber = number;
                         }
                     }
 
                     int newNumber = maxNumber + 1;
                     String docId = "wishlist" + newNumber;
 
-                    Log.d(TAG, "Generated document ID: " + docId);
-
-                    db.collection("wishlists")
+                    db.collection("users")
+                            .document(uid)
+                            .collection("wishlists")
                             .document(docId)
                             .set(wishlist)
                             .addOnSuccessListener(unused -> {
-                                Log.d(TAG, "Wishlist saved successfully with ID: " + docId);
-
-                                if (getActivity() != null) {
-                                    getActivity().runOnUiThread(() -> {
-                                        Toast.makeText(getContext(), "تم إنشاء القائمة بنجاح ✓", Toast.LENGTH_SHORT).show();
-
-                                        occasionNameInput.setText("");
-                                        notesInput.setText("");
-                                        dateText.setText("اختر التاريخ");
-                                        dateText.setTextColor(getResources().getColor(R.color.grey));
-                                        imagePreview.setVisibility(View.GONE);
-                                        imagePlaceholder.setVisibility(View.VISIBLE);
-                                        selectedImageUri = null;
-                                    });
-                                }
+                                Toast.makeText(getContext(),"تم إنشاء القائمة بنجاح ✓", Toast.LENGTH_SHORT).show();
                             })
                             .addOnFailureListener(e -> {
-                                Log.e(TAG, "Failed to save wishlist: " + e.getMessage(), e);
-                                if (getActivity() != null) {
-                                    getActivity().runOnUiThread(() ->
-                                            Toast.makeText(getContext(), "خطأ في حفظ القائمة: " + e.getMessage(), Toast.LENGTH_LONG).show());
-                                }
+                                Toast.makeText(getContext(),"خطأ في الحفظ: " + e.getMessage(), Toast.LENGTH_LONG).show();
                             });
                 })
                 .addOnFailureListener(e -> {
-                    Log.e(TAG, "Failed to count existing wishlists: " + e.getMessage(), e);
-                    if (getActivity() != null) {
-                        getActivity().runOnUiThread(() ->
-                                Toast.makeText(getContext(), "خطأ في إنشاء معرف القائمة", Toast.LENGTH_LONG).show());
-                    }
+                    Toast.makeText(getContext(),"خطأ في قراءة القوائم", Toast.LENGTH_LONG).show();
                 });
     }
+
 }
