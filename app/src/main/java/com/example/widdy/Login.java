@@ -34,10 +34,20 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mAuth = FirebaseAuth.getInstance();
+
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null && currentUser.isEmailVerified()) {
+            Log.d(TAG, "User already logged in and verified, redirecting to home");
+            startActivity(new Intent(Login.this, HomePageActivity.class));
+            finish();
+            return;
+        }
+
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
 
-        mAuth = FirebaseAuth.getInstance();
         et_email = findViewById(R.id.email_Login);
         et_password = findViewById(R.id.password_Login);
         btnLogin = findViewById(R.id.btnLogin);
@@ -54,6 +64,18 @@ public class Login extends AppCompatActivity {
         }
         if (intent.getBooleanExtra("showVerificationMessage", false)) {
             Toast.makeText(this, "تحقق من بريدك الإلكتروني لتفعيل الحساب", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null && currentUser.isEmailVerified()) {
+            Log.d(TAG, "User already logged in and verified in onStart");
+            startActivity(new Intent(Login.this, HomePageActivity.class));
+            finish();
         }
     }
 
