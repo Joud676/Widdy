@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.util.Log;
 import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,10 +13,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class signup extends AppCompatActivity {
 
+    private static final String TAG = "SignUp";
+
     private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
     private EditText fullName, email, password, confirmPassword;
     private Button signupBtn;
     private TextView loginText;
@@ -27,6 +36,7 @@ public class signup extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
 
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         fullName = findViewById(R.id.fullName);
         email = findViewById(R.id.email);
@@ -36,16 +46,13 @@ public class signup extends AppCompatActivity {
         loginText = findViewById(R.id.loginText);
         backBtn = findViewById(R.id.backBtn);
 
-        // back button
         backBtn.setOnClickListener(v -> finish());
 
-        // go to login page
         loginText.setOnClickListener(v -> {
             Intent i = new Intent(signup.this, Login.class);
             startActivity(i);
         });
 
-        // sign up button
         signupBtn.setOnClickListener(v -> registerUser());
     }
 
@@ -56,7 +63,6 @@ public class signup extends AppCompatActivity {
         String pass = password.getText().toString().trim();
         String confirm = confirmPassword.getText().toString().trim();
 
-        // input verification
         if (name.isEmpty()) {
             fullName.setError("يرجى إدخال الاسم");
             fullName.requestFocus();
@@ -87,22 +93,72 @@ public class signup extends AppCompatActivity {
             return;
         }
 
-        // Firebase Authentication
+        signupBtn.setEnabled(false);
+        Log.d(TAG, "Starting user registration...");
+
         mAuth.createUserWithEmailAndPassword(mail, pass).addOnCompleteListener(task -> {
 
             if (task.isSuccessful()) {
-                // نجاح
-                Toast.makeText(signup.this, "تم إنشاء الحساب بنجاح", Toast.LENGTH_LONG).show();
+                FirebaseUser user = mAuth.getCurrentUser();
 
-                // انتقال إلى الـ Home Page
-                Intent intent = new Intent(signup.this, HomePageActivity.class);
-                startActivity(intent);
-                finish();
+                if (user != null) {
+                    String uid = user.getUid();
+                    Log.d(TAG, "Auth successful for UID: " + uid);
+
+                    user.sendEmailVerification()
+                            .addOnSuccessListener(unused -> {
+                                Log.d(TAG, "Verification email sent successfully");
+
+                                Map<String, Object> userData = new HashMap<>();
+                                userData.put("name", name);
+                                userData.put("email", mail);
+                                userData.put("emailVerified", false);
+                                userData.put("createdAt", System.currentTimeMillis());
+
+                                db.collection("users")
+                                        .document(uid)
+                                        .set(userData)
+                                        .addOnSuccessListener(unused2 -> {
+                                            Log.d(TAG, "User data saved successfully");
+
+                                            Toast.makeText(signup.this,
+                                                    "تم إنشاء الحساب! تحقق من بريدك الإلكتروني للتفعيل",
+                                                    Toast.LENGTH_LONG).show();
+
+                                            mAuth.signOut();
+
+                                            Intent intent = new Intent(signup.this, Login.class);
+                                            intent.putExtra("email", mail);
+                                            intent.putExtra("showVerificationMessage", true);
+                                            startActivity(intent);
+                                            finish();
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            Log.e(TAG, "Failed to save user data: " + e.getMessage());
+                                            Toast.makeText(signup.this,
+                                                    "حدث خطأ في حفظ البيانات: " + e.getMessage(),
+                                                    Toast.LENGTH_LONG).show();
+                                            signupBtn.setEnabled(true);
+                                        });
+                            })
+                            .addOnFailureListener(e -> {
+                                Log.e(TAG, "Failed to send verification email: " + e.getMessage());
+                                Toast.makeText(signup.this,
+                                        "حدث خطأ في إرسال رسالة التحقق: " + e.getMessage(),
+                                        Toast.LENGTH_LONG).show();
+                                signupBtn.setEnabled(true);
+                            });
+                } else {
+                    Log.e(TAG, "User is null after successful auth");
+                    signupBtn.setEnabled(true);
+                }
+
             } else {
-                // فشل
+                Log.e(TAG, "Auth failed: " + task.getException().getMessage());
                 Toast.makeText(signup.this,
                         task.getException().getMessage(),
                         Toast.LENGTH_LONG).show();
+                signupBtn.setEnabled(true);
             }
         });
     }

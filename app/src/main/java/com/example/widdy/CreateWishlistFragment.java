@@ -21,10 +21,9 @@ import android.widget.Toast;
 import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -32,6 +31,9 @@ import java.io.InputStream;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -120,6 +122,37 @@ public class CreateWishlistFragment extends Fragment {
                 imagePlaceholder.setVisibility(View.GONE);
             }
         }
+    }
+
+    private int generateAccessCode() {
+        Random random = new Random();
+        return 100000 + random.nextInt(900000);
+    }
+
+    private void generateUniqueAccessCode(OnCodeGeneratedListener listener) {
+        int code = generateAccessCode();
+        Log.d(TAG, "Generated code: " + code + ", checking uniqueness...");
+
+        db.collection("wishlists")
+                .whereEqualTo("accessCode", code)
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    if (querySnapshot.isEmpty()) {
+                        Log.d(TAG, "Code " + code + " is unique!");
+                        listener.onCodeGenerated(code);
+                    } else {
+                        Log.d(TAG, "Code " + code + " already exists, generating new one...");
+                        generateUniqueAccessCode(listener);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "Error checking code uniqueness: " + e.getMessage());
+                    listener.onCodeGenerated(code);
+                });
+    }
+
+    interface OnCodeGeneratedListener {
+        void onCodeGenerated(int code);
     }
 
     private void saveWishlist() {
@@ -217,15 +250,22 @@ public class CreateWishlistFragment extends Fragment {
 
                     Log.d(TAG, "Image URL extracted: " + imageUrl);
 
-                    Map<String, Object> wishlist = new HashMap<>();
-                    wishlist.put("name", name);
-                    wishlist.put("date", date);
-                    wishlist.put("notes", notes);
-                    wishlist.put("imageUrl", imageUrl);
-                    wishlist.put("userId", uid);
-                    wishlist.put("createdAt", System.currentTimeMillis());
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(() -> {
+                            generateUniqueAccessCode(accessCode -> {
+                                Map<String, Object> wishlist = new HashMap<>();
+                                wishlist.put("name", name);
+                                wishlist.put("date", date);
+                                wishlist.put("notes", notes);
+                                wishlist.put("imageUrl", imageUrl);
+                                wishlist.put("userId", uid);
+                                wishlist.put("accessCode", accessCode);
+                                wishlist.put("createdAt", System.currentTimeMillis());
 
-                    saveWishlistToFirestore(wishlist);
+                                saveWishlistToFirestore(wishlist);
+                            });
+                        });
+                    }
                 }
             });
         } catch (Exception e) {
@@ -246,17 +286,27 @@ public class CreateWishlistFragment extends Fragment {
 
     private void saveWishlistToFirestore(Map<String, Object> wishlist) {
         Log.d(TAG, "Starting to save wishlist to Firestore...");
-
-        FirebaseUser currentUser = auth.getCurrentUser();
-        if (currentUser == null) return;
-        String uid = currentUser.getUid();
+        Log.d(TAG, "Access Code: " + wishlist.get("accessCode"));
 
         db.collection("wishlists")
-                .whereEqualTo("userId", uid)
                 .get()
                 .addOnSuccessListener(querySnapshot -> {
-                    long count = querySnapshot.size();
-                    String docId = "wishlist" + (count + 1);
+                    int maxNumber = 0;
+                    Pattern pattern = Pattern.compile("^wishlist(\\d+)$");
+
+                    for (int i = 0; i < querySnapshot.getDocuments().size(); i++) {
+                        String docId = querySnapshot.getDocuments().get(i).getId();
+                        Matcher matcher = pattern.matcher(docId);
+                        if (matcher.matches()) {
+                            int number = Integer.parseInt(matcher.group(1));
+                            if (number > maxNumber) {
+                                maxNumber = number;
+                            }
+                        }
+                    }
+
+                    int newNumber = maxNumber + 1;
+                    String docId = "wishlist" + newNumber;
 
                     Log.d(TAG, "Generated document ID: " + docId);
 
@@ -264,13 +314,12 @@ public class CreateWishlistFragment extends Fragment {
                             .document(docId)
                             .set(wishlist)
                             .addOnSuccessListener(unused -> {
-                                Log.d(TAG, "✓ Wishlist saved successfully!");
+                                Log.d(TAG, "Wishlist saved successfully with ID: " + docId);
 
                                 if (getActivity() != null) {
                                     getActivity().runOnUiThread(() -> {
                                         Toast.makeText(getContext(), "تم إنشاء القائمة بنجاح ✓", Toast.LENGTH_SHORT).show();
 
-                                        // Clear form
                                         occasionNameInput.setText("");
                                         notesInput.setText("");
                                         dateText.setText("اختر التاريخ");
@@ -282,13 +331,12 @@ public class CreateWishlistFragment extends Fragment {
                                 }
                             })
                             .addOnFailureListener(e -> {
-                                Log.e(TAG, "✗ Failed to save wishlist: " + e.getMessage(), e);
+                                Log.e(TAG, "Failed to save wishlist: " + e.getMessage(), e);
                                 if (getActivity() != null) {
                                     getActivity().runOnUiThread(() ->
                                             Toast.makeText(getContext(), "خطأ في حفظ القائمة: " + e.getMessage(), Toast.LENGTH_LONG).show());
                                 }
                             });
-
                 })
                 .addOnFailureListener(e -> {
                     Log.e(TAG, "Failed to count existing wishlists: " + e.getMessage(), e);

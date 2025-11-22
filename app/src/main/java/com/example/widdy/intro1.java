@@ -42,7 +42,7 @@ public class intro1 extends AppCompatActivity {
         btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(intro1.this, signup.class);
+                Intent intent = new Intent(intro1.this, Login.class);
                 startActivity(intent);
             }
         });
