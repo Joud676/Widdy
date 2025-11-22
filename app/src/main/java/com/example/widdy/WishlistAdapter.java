@@ -32,7 +32,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         WishlistModel w = list.get(position);
 
-        holder.tvTitle.setText(w.getTitle());
+        holder.tvTitle.setText(w.getName());
         holder.tvItems.setText(w.getItems() + " عناصر");
     }
 

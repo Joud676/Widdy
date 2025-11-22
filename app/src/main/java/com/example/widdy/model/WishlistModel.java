@@ -2,21 +2,26 @@ package com.example.widdy.model;
 
 public class WishlistModel {
 
-    String title;
-    int items;
+    private String name;
+    private String date;
+    private String notes;
+    private String imageUrl;
+    private String userId;
+    private int items;
+    private int accessCode;
 
-    public WishlistModel() { }
+    public WishlistModel() {}
 
-    public WishlistModel(String title, int items) {
-        this.title = title;
+    public WishlistModel(String name, int items) {
+        this.name = name;
         this.items = items;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public int getItems() {
-        return items;
-    }
+    public String getName() { return name; }
+    public String getDate() { return date; }
+    public String getNotes() { return notes; }
+    public String getImageUrl() { return imageUrl; }
+    public String getUserId() { return userId; }
+    public int getItems() { return items; }
+    public int getAccessCode() { return accessCode; }
 }
