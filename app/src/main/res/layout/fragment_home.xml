@@ -1,195 +1,175 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     android:background="#FAFAFA"
     android:layoutDirection="rtl">
 
-    <!-- Top Bar -->
     <LinearLayout
-        android:id="@+id/topBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="20dp"
-        android:gravity="center_vertical"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layoutDirection="rtl">
+        android:orientation="vertical"
+        android:padding="24dp">
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:id="@+id/topBar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:padding="20dp"
+            android:gravity="center_vertical"
+            android:layoutDirection="rtl">
 
-            <TextView
-                android:id="@+id/tvWelcome"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="أهلاً بك!"
-                android:textSize="26sp"
-                android:textColor="#333333"
-                android:layout_gravity="center"
-                android:fontFamily="@font/beiruti_extrabold" />
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="لنصنع بعض السحر ✨"
-                android:textSize="14sp"
-                android:textColor="#666666"
-                android:fontFamily="@font/beiruti_light"
-                android:layout_gravity="center"
-                />
+                <TextView
+                    android:id="@+id/tvWelcome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="أهلاً بك!"
+                    android:textSize="26sp"
+                    android:textColor="#333333"
+                    android:fontFamily="@font/beiruti_extrabold"
+                    android:layout_gravity="center" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="ابدأ رحلة قوائم الهدايا"
+                    android:textSize="14sp"
+                    android:textColor="#666666"
+                    android:fontFamily="@font/beiruti_light"
+                    android:layout_gravity="center" />
+            </LinearLayout>
         </LinearLayout>
 
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="4dp"
+            android:layout_marginBottom="32dp"
+            app:cardBackgroundColor="@color/babyPurple">
 
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="32dp">
 
-    <!-- Scrollable Content -->
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:fillViewport="true"
-        app:layout_constraintTop_toBottomOf="@id/topBar"
-        app:layout_constraintBottom_toBottomOf="parent">
+                <ImageView
+                    android:id="@+id/widdyCharacter"
+                    android:layout_width="180dp"
+                    android:layout_height="180dp"
+                    android:src="@drawable/welcome_widdy"
+                    android:scaleType="centerInside"
+                    android:contentDescription="Widdy character" />
+
+                <Button
+                    android:id="@+id/btnCreateWishlist"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="24dp"
+                    android:text="إنشاء قائمة أمنيات جديدة"
+                    android:textSize="16sp"
+                    android:textColor="#FFFFFF"
+                    android:fontFamily="@font/beiruti_extrabold"
+                    android:backgroundTint="@color/pink2"
+                    app:cornerRadius="16dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="24dp">
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
 
-            <!-- Character Card -->
+            <TextView
+                android:id="@+id/titleWishlists"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="قوائم أمنياتي"
+                android:textSize="22sp"
+                android:textColor="#333333"
+                android:fontFamily="@font/beiruti_bold" />
+
+            <Button
+                android:id="@+id/btnViewAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="عرض الكل"
+                android:textSize="14sp"
+                android:textColor="#666666"
+                android:fontFamily="@font/beiruti_bold"
+                android:padding="4dp"
+                android:backgroundTint="@android:color/transparent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/emptyState"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="32dp"
+            android:visibility="gone">
+
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="4dp"
-                android:layout_marginBottom="32dp"
-                app:cardBackgroundColor="@color/babyPurple">
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#FFFFFF">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:padding="32dp">
+                    android:padding="40dp">
 
-                    <ImageView
-                        android:id="@+id/widdyCharacter"
-                        android:layout_width="180dp"
-                        android:layout_height="180dp"
-                        android:src="@drawable/welcome_widdy"
-                        android:scaleType="centerInside"
-                        android:contentDescription="Widdy character" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="لا توجد قوائم بعد"
+                        android:textSize="18sp"
+                        android:textColor="#666666"
+                        android:fontFamily="@font/beiruti_bold"
+                        android:layout_marginBottom="16dp" />
 
                     <Button
-                        android:id="@+id/btnCreateWishlist"
-                        android:layout_width="match_parent"
+                        android:id="@+id/btnCreateNow"
+                        android:layout_width="wrap_content"
                         android:layout_height="56dp"
-                        android:layout_marginTop="24dp"
-                        android:text="إنشاء قائمة أمنيات جديدة"
+                        android:text="أنشئ قائمتك الآن"
                         android:textSize="16sp"
                         android:textColor="#FFFFFF"
                         android:fontFamily="@font/beiruti_extrabold"
                         android:backgroundTint="@color/pink2"
-                        app:cornerRadius="16dp" />
+                        app:cornerRadius="16dp"
+                        android:paddingStart="32dp"
+                        android:paddingEnd="32dp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-
-            <!-- Section Header -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="16dp">
-
-                <TextView
-                    android:id="@+id/titleWishlists"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="قوائم أمنياتي"
-                    android:textSize="22sp"
-                    android:textColor="#333333"
-                    android:fontFamily="@font/beiruti_bold" />
-
-                <Button
-                    android:id="@+id/btnViewAll"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="عرض الكل"
-                    android:textSize="14sp"
-                    android:textColor="#666666"
-                    android:fontFamily="@font/beiruti_bold"
-                    android:padding="4dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:backgroundTint="@android:color/transparent"
-                    />
-            </LinearLayout>
-
-            <!-- Empty State -->
-            <LinearLayout
-                android:id="@+id/emptyState"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:padding="32dp"
-                android:visibility="gone">
-
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="0dp"
-                    app:cardBackgroundColor="#FFFFFF">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:gravity="center"
-                        android:padding="40dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="لا توجد قوائم بعد"
-                            android:textSize="18sp"
-                            android:textColor="#666666"
-                            android:fontFamily="@font/beiruti_bold"
-                            android:layout_marginBottom="16dp" />
-
-                        <Button
-                            android:id="@+id/btnCreateNow"
-                            android:layout_width="wrap_content"
-                            android:layout_height="56dp"
-                            android:text="أنشئ قائمتك الآن"
-                            android:textSize="16sp"
-                            android:textColor="#FFFFFF"
-                            android:fontFamily="@font/beiruti_extrabold"
-                            android:backgroundTint="@color/pink2"
-                            app:cornerRadius="16dp"
-                            android:paddingStart="32dp"
-                            android:paddingEnd="32dp" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-            </LinearLayout>
-
-            <!-- Wishlists RecyclerView -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvWishlists"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clipToPadding="false" />
-
         </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvWishlists"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:nestedScrollingEnabled="false" />
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

@@ -2,21 +2,90 @@ package com.example.widdy.model;
 
 public class WishlistModel {
 
-    String title;
-    int items;
+    private String name;
+    private String date;
+    private String notes;
+    private String imageUrl;
+    private String userId;
+    private int accessCode;
+    private long createdAt;
+    private int itemCount;
 
-    public WishlistModel() { }
-
-    public WishlistModel(String title, int items) {
-        this.title = title;
-        this.items = items;
+    public WishlistModel() {
     }
 
-    public String getTitle() {
-        return title;
+    public WishlistModel(String name, String date, String notes, String imageUrl, String userId, int accessCode, long createdAt) {
+        this.name = name;
+        this.date = date;
+        this.notes = notes;
+        this.imageUrl = imageUrl;
+        this.userId = userId;
+        this.accessCode = accessCode;
+        this.createdAt = createdAt;
+        this.itemCount = 0;
     }
 
-    public int getItems() {
-        return items;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public int getAccessCode() {
+        return accessCode;
+    }
+
+    public void setAccessCode(int accessCode) {
+        this.accessCode = accessCode;
+    }
+
+    public long getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(long createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public int getItemCount() {
+        return itemCount;
+    }
+
+    public void setItemCount(int itemCount) {
+        this.itemCount = itemCount;
     }
 }

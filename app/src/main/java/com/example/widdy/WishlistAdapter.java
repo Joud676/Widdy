@@ -3,14 +3,16 @@ package com.example.widdy;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
-
-import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.widdy.model.WishlistModel;
+
+import java.util.ArrayList;
 
 public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHolder> {
 
@@ -30,10 +32,21 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        WishlistModel w = list.get(position);
+        WishlistModel wishlist = list.get(position);
 
-        holder.tvTitle.setText(w.getTitle());
-        holder.tvItems.setText(w.getItems() + " عناصر");
+        holder.tvTitle.setText(wishlist.getName());
+        holder.tvItems.setText(wishlist.getItemCount() + " عناصر");
+
+        if (wishlist.getImageUrl() != null && !wishlist.getImageUrl().isEmpty()) {
+            Glide.with(holder.itemView.getContext())
+                    .load(wishlist.getImageUrl())
+                    .centerCrop()
+                    .placeholder(R.drawable.ic_gift)
+                    .into(holder.ivWishlistImage);
+        }
+
+        holder.itemView.setOnClickListener(v -> {
+        });
     }
 
     @Override
@@ -44,12 +57,14 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvTitle, tvItems;
+        ImageView ivWishlistImage;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvItems = itemView.findViewById(R.id.tvItemsCount);
+            ivWishlistImage = itemView.findViewById(R.id.ivWishlistImage);
         }
     }
 }
