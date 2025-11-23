@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+
+
+        <ImageView
+            android:layout_marginTop="50dp"
+            android:id="@+id/backBtn"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="start"
+            android:padding="4dp"
+            android:src="@drawable/arrow_back" />
+
+        <ImageView
+            android:id="@+id/mascotImage"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="24dp"
+            android:contentDescription="Mascot"
+            android:src="@drawable/enter_code" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="أدخل رمز القائمة!"
+            android:textSize="28sp"
+            android:textColor="#D47A9F"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginTop="16dp"/>
+
+        <!-- وصف بسيط -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="أدخل الرمز للوصول إلى قائمة الهدايا"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:textColor="#6A8A99"
+            android:layout_marginTop="8dp"/>
+
+
+        <EditText
+            android:id="@+id/codeInput"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_marginTop="30dp"
+            android:layout_width="348dp"
+            android:layout_height="56dp"
+            android:layout_marginEnd="15dp"
+            android:layout_weight="1"
+            android:backgroundTint="#FFFFFF"
+            android:fontFamily="@font/beiruti_extrabold"
+            android:inputType="number"
+            android:text="أدخل رمز الوصول"
+            android:textColor="#a3cad1"
+            android:textSize="16sp"
+            app:cornerRadius="12dp"
+            app:strokeColor="@color/colorSkipStroke"
+            app:strokeWidth="2dp" />
+
+        <Button
+
+            android:id="@+id/btnContinue"
+            android:layout_width="320dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="32dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:backgroundTint="#F682A4"
+            android:fontFamily="@font/beiruti_extrabold"
+            android:padding="5dp"
+            android:text="متابعة"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            app:cornerRadius="12dp" />
+
+    </LinearLayout>
+
+</ScrollView>
