@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@drawable/bg_dialog"
+    android:gravity="center">
+
+    <!-- أيقونة الهدية -->
+    <ImageView
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:src="@drawable/ic_gift"
+        app:tint="@color/pink2"
+        android:contentDescription="هدية"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- العنوان -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="تأكيد الحجز"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/pink2"
+        android:fontFamily="@font/beiruti_extrabold"
+        android:layout_marginBottom="12dp"/>
+
+    <!-- الرسالة -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="هل تريد حجز هذه الهدية؟"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/beiruti_regular"
+        android:gravity="center"
+        android:layout_marginBottom="8dp"/>
+
+    <!-- اسم الهدية -->
+    <TextView
+        android:id="@+id/giftNameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="اسم الهدية"
+        android:textSize="16sp"
+        android:textColor="@color/pink"
+        android:fontFamily="@font/beiruti_bold"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:layout_marginBottom="24dp"/>
+
+    <!-- الأزرار -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="48dp"
+            android:text="إلغاء"
+            android:textColor="@color/pink2"
+            android:backgroundTint="@color/white"
+            android:fontFamily="@font/beiruti_semibold"
+            android:layout_marginEnd="8dp"
+            app:cornerRadius="12dp"/>
+
+        <Button
+            android:id="@+id/btnConfirm"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="48dp"
+            android:text="احجز"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/pink2"
+            android:fontFamily="@font/beiruti_semibold"
+            app:cornerRadius="12dp"
+            android:layout_marginStart="8dp"/>
+    </LinearLayout>
+</LinearLayout>

@@ -18,5 +18,29 @@
     <color name="grey">#CCCCCC</color>
     <color name="background">#FAFAFA</color>
     <color name="colorSkipStroke">#a3cad1</color>
+    <color name="red" />
+
+
+    <!-- ألوان النصوص -->
+    <color name="textPrimary">#2D3436</color>
+    <color name="textSecondary">#636E72</color>
+    <color name="textHint">#B2BEC3</color>
+
+    <color name="dividerColor">#E8E8E8</color>
+
+    <!-- ألوان الحالات -->
+    <color name="colorSuccess">#00B894</color>
+    <color name="colorError">#D63031</color>
+    <color name="colorWarning">#FDCB6E</color>
+
+    <!-- ألوان إضافية -->
+    <color name="colorReserved">#74B9FF</color>
+    <color name="colorAvailable">#55EFC4</color>
+
+    <!-- للتوافق مع باقي الكود -->
+    <color name="colorPrimary">#FF8FAB</color>
+    <color name="colorPrimaryDark">#FF6B9D</color>
+    <color name="colorAccent">#E8D5F2</color>
+    <color name="backgroundColor">#F8F9FA</color>
 
 </resources>
