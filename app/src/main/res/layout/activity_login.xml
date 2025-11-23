@@ -142,6 +142,18 @@
             android:fontFamily="@font/beiruti_bold"
             android:onClick="loginMethod" />
 
+        <!-- زر الدخول كضيف -->
+        <Button
+            android:id="@+id/btnGuest"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="12dp"
+            android:backgroundTint="#F4F1F4"
+            android:text="الدخول كضيف"
+            android:textColor="@color/teal"
+            android:textSize="18sp"
+            android:fontFamily="@font/beiruti_bold" />
+
         <!-- إنشاء حساب -->
         <LinearLayout
             android:layout_width="wrap_content"

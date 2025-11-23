@@ -241,11 +241,13 @@ public class WishlistDetailsFragment extends Fragment {
     }
 
     private void onEditGift(GiftModel gift) {
-        Toast.makeText(getContext(), "تعديل: " + gift.getName(), Toast.LENGTH_SHORT).show();
+        if (getActivity() instanceof HomePageActivity) {
+            ((HomePageActivity) getActivity()).openEditGift(wishlistDocId, gift.getID());
+        }
     }
 
     private void onDeleteGift(GiftModel gift) {
-        Toast.makeText(getContext(), "حذف: " + gift.getName(), Toast.LENGTH_SHORT).show();
+        showDeleteGiftDialog(gift);
     }
 
     private void showDeleteDialog() {
@@ -301,7 +303,46 @@ public class WishlistDetailsFragment extends Fragment {
                     Toast.makeText(getContext(), "خطأ في حذف الهدايا", Toast.LENGTH_SHORT).show();
                 });
     }
+    private void showDeleteGiftDialog(GiftModel gift) {
+        View dialogView = LayoutInflater.from(requireContext())
+                .inflate(R.layout.dialog_confirm_delete, null);
 
+        AlertDialog dialog = new AlertDialog.Builder(requireContext())
+                .setView(dialogView)
+                .setCancelable(true)
+                .create();
+
+        Button btnCancel = dialogView.findViewById(R.id.btnCancel);
+        Button btnConfirm = dialogView.findViewById(R.id.btnConfirm);
+
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
+
+        btnConfirm.setOnClickListener(v -> {
+            dialog.dismiss();
+            deleteGift(gift);
+        });
+
+        dialog.show();
+    }
+    // ميثود لحذف الهدية
+    private void deleteGift(GiftModel gift) {
+        db.collection("users")
+                .document(userId)
+                .collection("wishlists")
+                .document(wishlistDocId)
+                .collection("gifts")
+                .document(gift.getID())
+                .delete()
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(getContext(), "تم حذف الهدية بنجاح", Toast.LENGTH_SHORT).show();
+                    // Reload the gifts list to reflect the deletion
+                    loadGifts();
+                })
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "Delete gift failed: " + e.getMessage());
+                    Toast.makeText(getContext(), "فشل حذف الهدية", Toast.LENGTH_SHORT).show();
+                });
+    }
     @Override
     public void onResume() {
         super.onResume();

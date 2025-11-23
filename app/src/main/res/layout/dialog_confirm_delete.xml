@@ -22,7 +22,7 @@
         android:id="@+id/tvDialogMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="هل أنت متأكد أنك تريد حذف هذه القائمة؟"
+        android:text="هل أنت متأكد أنك تريد حذف هذه العنصر؟"
         android:textSize="14sp"
         android:textColor="@color/black"
         android:gravity="center"
