@@ -86,5 +86,18 @@ public class HomePageActivity extends AppCompatActivity {
                 .commit();
     }
 
+    public void openEditGift(String wishlistId, String giftId) {
+        EditGiftFragment editGiftFragment = new EditGiftFragment();
+        Bundle args = new Bundle();
+        args.putString("wishlistId", wishlistId);
+        args.putString("giftId", giftId);
+        editGiftFragment.setArguments(args);
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, editGiftFragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
 
 }
