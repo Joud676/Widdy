@@ -3,9 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddGiftFragment"
+    tools:context=".EditWishlistFragment"
     android:background="#FAFAFA"
     android:layoutDirection="rtl">
 
@@ -33,7 +34,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="إضافة هدية"
+            android:text="تعديل القائمة"
             android:textSize="22sp"
             android:textColor="#333333"
             android:fontFamily="@font/beiruti_bold"
@@ -50,7 +51,7 @@
         android:layout_height="0dp"
         android:fillViewport="true"
         app:layout_constraintTop_toBottomOf="@id/topBar"
-        app:layout_constraintBottom_toTopOf="@id/addGiftButton">
+        app:layout_constraintBottom_toTopOf="@id/editButton">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -58,15 +59,34 @@
             android:orientation="vertical"
             android:padding="24dp">
 
-            <!-- Gift Name -->
+            <!-- Illustration -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp"
+                android:layout_marginBottom="32dp"
+                app:cardBackgroundColor="@color/babyPurple">
+
+                <ImageView
+                    android:layout_width="160dp"
+                    android:layout_height="160dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="Edit wishlist character"
+                    android:src="@drawable/widdy_wishlist" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Occasion Name -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="اسم الهدية"
+                android:text="اسم المناسبة"
                 android:textSize="16sp"
                 android:textColor="#666666"
                 android:fontFamily="@font/beiruti_bold"
-                android:layout_marginBottom="8dp"/>
+                android:layout_marginBottom="8dp"
+                android:layoutDirection="rtl"
+                android:layout_gravity="start"/>
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -77,10 +97,10 @@
                 app:cardBackgroundColor="#FFFFFF">
 
                 <EditText
-                    android:id="@+id/giftNameInput"
+                    android:id="@+id/occasionNameInput"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
-                    android:hint="مثال: ساعة ذكية"
+                    android:hint="مثال: حفلة تخرجي من الجامعة"
                     android:textColorHint="@color/grey"
                     android:textSize="16sp"
                     android:textColor="#333333"
@@ -92,15 +112,67 @@
                     android:maxLines="1"/>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Gift Image -->
+            <!-- Occasion Date -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="صورة الهدية"
+                android:text="تاريخ المناسبة"
                 android:textSize="16sp"
                 android:textColor="#666666"
                 android:fontFamily="@font/beiruti_bold"
-                android:layout_marginBottom="8dp"/>
+                android:layout_marginBottom="8dp"
+                android:layoutDirection="rtl"
+                android:layout_gravity="start"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/dateCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="0dp"
+                android:layout_marginBottom="24dp"
+                app:cardBackgroundColor="#FFFFFF"
+                android:clickable="true"
+                android:focusable="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp">
+
+                    <TextView
+                        android:id="@+id/dateText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="اختر التاريخ"
+                        android:textSize="16sp"
+                        android:textColor="@color/grey"
+                        android:fontFamily="@font/beiruti_bold"/>
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/widdy_date"
+                        android:contentDescription="Calendar"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Occasion Image -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="صورة المناسبة"
+                android:textSize="16sp"
+                android:textColor="#666666"
+                android:fontFamily="@font/beiruti_bold"
+                android:layout_marginBottom="8dp"
+                android:layoutDirection="rtl"
+                android:layout_gravity="start"/>
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/imageCard"
@@ -119,6 +191,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
+                    <!-- Placeholder -->
                     <LinearLayout
                         android:id="@+id/imagePlaceholder"
                         android:layout_width="match_parent"
@@ -136,12 +209,13 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="اضغط لإضافة صورة"
+                            android:text="اضغط لتغيير الصورة"
                             android:textSize="16sp"
                             android:textColor="@color/pink"
                             android:fontFamily="@font/beiruti_bold"/>
                     </LinearLayout>
 
+                    <!-- Image Preview -->
                     <ImageView
                         android:id="@+id/imagePreview"
                         android:layout_width="match_parent"
@@ -152,176 +226,49 @@
                 </FrameLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Expected Price -->
+            <!-- General Notes -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="السعر المتوقع"
+                android:text="ملاحظات عامة  (اختياري)"
                 android:textSize="16sp"
                 android:textColor="#666666"
                 android:fontFamily="@font/beiruti_bold"
-                android:layout_marginBottom="8dp"/>
+                android:layout_marginBottom="8dp"
+                android:layoutDirection="rtl"
+                android:layout_gravity="start"/>
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
                 app:strokeWidth="0dp"
                 android:layout_marginBottom="24dp"
                 app:cardBackgroundColor="#FFFFFF">
 
                 <EditText
-                    android:id="@+id/expectedPriceInput"
+                    android:id="@+id/notesInput"
                     android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:hint="مثال: 250 ريال"
+                    android:layout_height="120dp"
+                    android:hint="أي ملاحظات تحب تضيفها..."
                     android:textColorHint="@color/grey"
                     android:textSize="16sp"
-                    android:textColor="#333333"
-                    android:fontFamily="@font/beiruti_bold"
-                    android:background="@android:color/transparent"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp"
-                    android:inputType="number"
-                    android:maxLines="1"/>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Short Description -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="وصف مختصر"
-                android:textSize="16sp"
-                android:textColor="#666666"
-                android:fontFamily="@font/beiruti_bold"
-                android:layout_marginBottom="8dp"/>
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="16dp"
-                app:strokeWidth="0dp"
-                android:layout_marginBottom="24dp"
-                app:cardBackgroundColor="#FFFFFF">
-
-                <EditText
-                    android:id="@+id/shortDescriptionInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:hint="مثال: سوار كحلي"
-                    android:textColorHint="@color/grey"
-                    android:textSize="16sp"
-                    android:textColor="#333333"
+                    android:textColor="@color/grey"
                     android:fontFamily="@font/beiruti_bold"
                     android:background="@android:color/transparent"
                     android:padding="20dp"
                     android:inputType="textMultiLine"
                     android:gravity="top"
-                    android:maxLines="4"/>
+                    android:maxLines="5"/>
             </com.google.android.material.card.MaterialCardView>
-
-            <!-- Store Location -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="موقع المحل المقترح"
-                android:textSize="16sp"
-                android:textColor="#666666"
-                android:fontFamily="@font/beiruti_bold"
-                android:layout_marginBottom="8dp"/>
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/locationCard"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                app:cardCornerRadius="16dp"
-                android:layout_marginBottom="24dp"
-                app:cardBackgroundColor="#FFFFFF"
-                android:clickable="true"
-                android:focusable="true">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp">
-
-                    <TextView
-                        android:id="@+id/locationText"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="اختر الموقع"
-                        android:textSize="16sp"
-                        android:textColor="@color/grey"
-                        android:fontFamily="@font/beiruti_bold"/>
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="wrap_content"
-                        android:contentDescription="Location"/>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Product Link -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="رابط المنتج"
-                android:textSize="16sp"
-                android:textColor="#666666"
-                android:fontFamily="@font/beiruti_bold"
-                android:layout_marginBottom="8dp"/>
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="16dp"
-                app:strokeWidth="0dp"
-                android:layout_marginBottom="24dp"
-                app:cardBackgroundColor="#FFFFFF">
-
-                <EditText
-                    android:id="@+id/productLinkInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:hint="مثال: https://example.com"
-                    android:textColorHint="@color/grey"
-                    android:textSize="16sp"
-                    android:textColor="#333333"
-                    android:fontFamily="@font/beiruti_bold"
-                    android:background="@android:color/transparent"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp"
-                    android:inputType="textUri"
-                    android:maxLines="1"/>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Gift Priority -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="أولوية الهدية"
-                android:textSize="16sp"
-                android:textColor="#666666"
-                android:fontFamily="@font/beiruti_bold"
-                android:layout_marginBottom="8dp"/>
-
-            <Spinner
-                android:id="@+id/prioritySpinner"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:entries="@array/gift_priority"
-                android:layout_marginBottom="24dp"/>
 
         </LinearLayout>
     </ScrollView>
 
-    <!-- Add Gift Button -->
+    <!-- Edit Button -->
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/addGiftButton"
+        android:id="@+id/editButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="0dp"
@@ -336,10 +283,10 @@
             android:padding="20dp">
 
             <Button
-                android:id="@+id/saveGiftBtn"
+                android:id="@+id/editWishlistBtn"
                 android:layout_width="match_parent"
                 android:layout_height="58dp"
-                android:text="إضافة الهدية"
+                android:text="حفظ التعديلات"
                 android:textSize="18sp"
                 android:textColor="#FFFFFF"
                 android:fontFamily="@font/beiruti_extrabold"

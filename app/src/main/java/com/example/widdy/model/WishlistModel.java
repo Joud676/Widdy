@@ -2,19 +2,20 @@ package com.example.widdy.model;
 
 public class WishlistModel {
 
+    private String documentId;
     private String name;
     private String date;
     private String notes;
     private String imageUrl;
     private String userId;
-    private int accessCode;
+    private long accessCode;
     private long createdAt;
     private int itemCount;
 
     public WishlistModel() {
     }
 
-    public WishlistModel(String name, String date, String notes, String imageUrl, String userId, int accessCode, long createdAt) {
+    public WishlistModel(String name, String date, String notes, String imageUrl, String userId, long accessCode, long createdAt) {
         this.name = name;
         this.date = date;
         this.notes = notes;
@@ -23,6 +24,14 @@ public class WishlistModel {
         this.accessCode = accessCode;
         this.createdAt = createdAt;
         this.itemCount = 0;
+    }
+
+    public String getDocumentId() {
+        return documentId;
+    }
+
+    public void setDocumentId(String documentId) {
+        this.documentId = documentId;
     }
 
     public String getName() {
@@ -65,11 +74,11 @@ public class WishlistModel {
         this.userId = userId;
     }
 
-    public int getAccessCode() {
+    public long getAccessCode() {
         return accessCode;
     }
 
-    public void setAccessCode(int accessCode) {
+    public void setAccessCode(long accessCode) {
         this.accessCode = accessCode;
     }
 

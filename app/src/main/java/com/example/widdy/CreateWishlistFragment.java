@@ -1,10 +1,11 @@
 package com.example.widdy;
 
+import static android.content.ContentValues.TAG;
+
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -22,8 +23,6 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -36,7 +35,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -46,12 +44,11 @@ import okhttp3.Response;
 
 public class CreateWishlistFragment extends Fragment {
 
-    private static final String TAG = "CreateWishlist";
     private static final int IMAGE_PICK_CODE = 100;
 
     EditText occasionNameInput, notesInput;
     TextView dateText;
-    ImageView imagePreview;
+    ImageView imagePreview, backButton;
     LinearLayout imagePlaceholder;
     MaterialCardView dateCard, imageCard;
     Button createWishlistBtn;
@@ -60,8 +57,9 @@ public class CreateWishlistFragment extends Fragment {
     FirebaseFirestore db;
     FirebaseAuth auth;
 
-    public CreateWishlistFragment() {
-    }
+    private String fromPage = "home";
+
+    public CreateWishlistFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,16 +74,20 @@ public class CreateWishlistFragment extends Fragment {
         notesInput = view.findViewById(R.id.notesInput);
         dateText = view.findViewById(R.id.dateText);
         dateCard = view.findViewById(R.id.dateCard);
-
         imageCard = view.findViewById(R.id.imageCard);
         imagePlaceholder = view.findViewById(R.id.imagePlaceholder);
         imagePreview = view.findViewById(R.id.imagePreview);
-
         createWishlistBtn = view.findViewById(R.id.createWishlistBtn);
+        backButton = view.findViewById(R.id.backButton);
+
+        if (getArguments() != null) {
+            fromPage = getArguments().getString("fromPage", "home");
+        }
 
         dateCard.setOnClickListener(v -> openDatePicker());
         imageCard.setOnClickListener(v -> pickImage());
         createWishlistBtn.setOnClickListener(v -> saveWishlist());
+        backButton.setOnClickListener(v -> getParentFragmentManager().popBackStack());
 
         return view;
     }
@@ -125,42 +127,36 @@ public class CreateWishlistFragment extends Fragment {
         }
     }
 
-    private int generateAccessCode() {
+    private long generateAccessCode() {
         Random random = new Random();
-        return 100000 + random.nextInt(900000);
+        return 100000L + random.nextInt(900000);
     }
 
     private void generateUniqueAccessCode(OnCodeGeneratedListener listener) {
-        int code = generateAccessCode();
-        Log.d(TAG, "Generated code: " + code + ", checking uniqueness...");
-
-        db.collection("wishlists")
-                .whereEqualTo("accessCode", code)
+        long code = generateAccessCode();
+        db.collection("users")
+                .document(auth.getCurrentUser().getUid())
+                .collection("wishlists")
+                .document(String.valueOf(code))
                 .get()
-                .addOnSuccessListener(querySnapshot -> {
-                    if (querySnapshot.isEmpty()) {
-                        Log.d(TAG, "Code " + code + " is unique!");
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (!documentSnapshot.exists()) {
                         listener.onCodeGenerated(code);
                     } else {
-                        Log.d(TAG, "Code " + code + " already exists, generating new one...");
                         generateUniqueAccessCode(listener);
                     }
                 })
-                .addOnFailureListener(e -> {
-                    Log.e(TAG, "Error checking code uniqueness: " + e.getMessage());
-                    listener.onCodeGenerated(code);
-                });
+                .addOnFailureListener(e -> listener.onCodeGenerated(code));
     }
 
     interface OnCodeGeneratedListener {
-        void onCodeGenerated(int code);
+        void onCodeGenerated(long code);
     }
 
     private void saveWishlist() {
         FirebaseUser currentUser = auth.getCurrentUser();
         if (currentUser == null) {
             Toast.makeText(getContext(), "يجب تسجيل الدخول أولاً", Toast.LENGTH_SHORT).show();
-            Log.e(TAG, "User not logged in");
             return;
         }
 
@@ -169,27 +165,19 @@ public class CreateWishlistFragment extends Fragment {
         String date = dateText.getText().toString().trim();
         String notes = notesInput.getText().toString().trim();
 
-        if (name.isEmpty()) {
-            Toast.makeText(getContext(), "اكتب اسم المناسبة", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (date.equals("اختر التاريخ")) {
-            Toast.makeText(getContext(), "اختر التاريخ", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (selectedImageUri == null) {
-            Toast.makeText(getContext(), "اختر صورة", Toast.LENGTH_SHORT).show();
+        if (name.isEmpty() || date.equals("اختر التاريخ") || selectedImageUri == null) {
+            Toast.makeText(getContext(), "اكمل جميع البيانات", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        Log.d(TAG, "Starting wishlist creation for user: " + uid);
+        createWishlistBtn.setText("جاري الحفظ...");
+        createWishlistBtn.setEnabled(false);
+
         uploadImageToImgBB(name, date, notes, uid);
     }
 
     private void uploadImageToImgBB(String name, String date, String notes, String uid) {
         try {
-            Log.d(TAG, "Starting image upload to ImgBB...");
-
             InputStream inputStream = getContext().getContentResolver().openInputStream(selectedImageUri);
             ByteArrayOutputStream buffer = new ByteArrayOutputStream();
             int nRead;
@@ -214,65 +202,64 @@ public class CreateWishlistFragment extends Fragment {
                     .post(body)
                     .build();
 
-            client.newCall(request).enqueue(new Callback() {
+            client.newCall(request).enqueue(new okhttp3.Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-                    Log.e(TAG, "Image upload failed: " + e.getMessage());
-                    if (getActivity() != null) {
-                        getActivity().runOnUiThread(() ->
-                                Toast.makeText(getContext(), "فشل رفع الصورة: " + e.getMessage(), Toast.LENGTH_SHORT).show());
-                    }
-                }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    Log.d(TAG, "Image upload response code: " + response.code());
-
-                    if (!response.isSuccessful()) {
-                        if (getActivity() != null) {
-                            getActivity().runOnUiThread(() ->
-                                    Toast.makeText(getContext(), "فشل رفع الصورة: " + response.code(), Toast.LENGTH_SHORT).show());
-                        }
-                        return;
-                    }
-
-                    String respStr = response.body().string();
-                    Log.d(TAG, "Image upload response: " + respStr);
-                    String imageUrl = extractImageUrl(respStr);
-
-                    if (imageUrl.isEmpty()) {
-                        Log.e(TAG, "Failed to extract image URL from response");
-                        if (getActivity() != null) {
-                            getActivity().runOnUiThread(() ->
-                                    Toast.makeText(getContext(), "فشل استخراج رابط الصورة", Toast.LENGTH_SHORT).show());
-                        }
-                        return;
-                    }
-
-                    Log.d(TAG, "Image URL extracted: " + imageUrl);
-
                     if (getActivity() != null) {
                         getActivity().runOnUiThread(() -> {
-                            generateUniqueAccessCode(accessCode -> {
-                                Map<String, Object> wishlist = new HashMap<>();
-                                wishlist.put("name", name);
-                                wishlist.put("date", date);
-                                wishlist.put("notes", notes);
-                                wishlist.put("imageUrl", imageUrl);
-                                wishlist.put("userId", uid);
-                                wishlist.put("accessCode", accessCode);
-                                wishlist.put("createdAt", System.currentTimeMillis());
-
-                                saveWishlistToFirestore(wishlist);
-                            });
+                            Toast.makeText(getContext(), "فشل رفع الصورة", Toast.LENGTH_SHORT).show();
+                            resetButton();
                         });
                     }
                 }
+
+                @Override
+                public void onResponse(Call call, Response response) {
+                    if (!response.isSuccessful()) {
+                        if (getActivity() != null) {
+                            getActivity().runOnUiThread(() -> {
+                                Toast.makeText(getContext(), "فشل رفع الصورة: " + response.code(), Toast.LENGTH_SHORT).show();
+                                resetButton();
+                            });
+                        }
+                        return;
+                    }
+
+                    try {
+                        String respStr = response.body().string();
+                        String imageUrl = extractImageUrl(respStr);
+
+                        if (getActivity() != null) {
+                            getActivity().runOnUiThread(() ->
+                                    generateUniqueAccessCode(accessCode -> {
+                                        Map<String, Object> wishlist = new HashMap<>();
+                                        wishlist.put("name", name);
+                                        wishlist.put("date", date);
+                                        wishlist.put("notes", notes);
+                                        wishlist.put("imageUrl", imageUrl);
+                                        wishlist.put("userId", uid);
+                                        wishlist.put("accessCode", accessCode);
+                                        wishlist.put("itemCount", 0);
+                                        wishlist.put("createdAt", System.currentTimeMillis());
+                                        saveWishlistToFirestore(wishlist, String.valueOf(accessCode));
+                                    })
+                            );
+                        }
+                    } catch (Exception e) {
+                        if (getActivity() != null) {
+                            getActivity().runOnUiThread(() -> {
+                                Toast.makeText(getContext(), "فشل قراءة الرد", Toast.LENGTH_SHORT).show();
+                                resetButton();
+                            });
+                        }
+                    }
+                }
             });
+
         } catch (Exception e) {
-            Log.e(TAG, "Exception during image upload: " + e.getMessage());
+            Toast.makeText(getContext(), "حدث خطأ أثناء رفع الصورة", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
-            Toast.makeText(getContext(), "حدث خطأ أثناء رفع الصورة: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            resetButton();
         }
     }
 
@@ -285,53 +272,39 @@ public class CreateWishlistFragment extends Fragment {
         return "";
     }
 
-    private void saveWishlistToFirestore(Map<String, Object> wishlist) {
-
+    private void saveWishlistToFirestore(Map<String, Object> wishlist, String docId) {
         FirebaseUser currentUser = auth.getCurrentUser();
         if (currentUser == null) {
-            Toast.makeText(getContext(),"يجب تسجيل الدخول", Toast.LENGTH_SHORT).show();
+            resetButton();
             return;
         }
 
         String uid = currentUser.getUid();
 
-        // العدّ لتحديد رقم الوثيقة الجديد wishlist1, wishlist2 ...
         db.collection("users")
                 .document(uid)
                 .collection("wishlists")
-                .get()
-                .addOnSuccessListener(querySnapshot -> {
+                .document(docId)
+                .set(wishlist)
+                .addOnSuccessListener(unused -> {
+                    resetButton();
+                    Toast.makeText(getContext(), "تم إنشاء القائمة بنجاح ✓", Toast.LENGTH_SHORT).show();
 
-                    int maxNumber = 0;
-                    Pattern pattern = Pattern.compile("^wishlist(\\d+)$");
-
-                    for (int i = 0; i < querySnapshot.getDocuments().size(); i++) {
-                        String docId = querySnapshot.getDocuments().get(i).getId();
-                        Matcher matcher = pattern.matcher(docId);
-                        if (matcher.matches()) {
-                            int number = Integer.parseInt(matcher.group(1));
-                            if (number > maxNumber) maxNumber = number;
-                        }
+                    if (getActivity() instanceof HomePageActivity) {
+                        ((HomePageActivity) getActivity()).openWishlistDetails(docId);
                     }
-
-                    int newNumber = maxNumber + 1;
-                    String docId = "wishlist" + newNumber;
-
-                    db.collection("users")
-                            .document(uid)
-                            .collection("wishlists")
-                            .document(docId)
-                            .set(wishlist)
-                            .addOnSuccessListener(unused -> {
-                                Toast.makeText(getContext(),"تم إنشاء القائمة بنجاح ✓", Toast.LENGTH_SHORT).show();
-                            })
-                            .addOnFailureListener(e -> {
-                                Toast.makeText(getContext(),"خطأ في الحفظ: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                            });
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(getContext(),"خطأ في قراءة القوائم", Toast.LENGTH_LONG).show();
+                    Log.e(TAG, "Save failed: " + e.getMessage());
+                    Toast.makeText(getContext(), "خطأ في الحفظ: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    resetButton();
                 });
     }
 
+    private void resetButton() {
+        if (createWishlistBtn != null && getActivity() != null) {
+            createWishlistBtn.setText("إنشاء القائمة");
+            createWishlistBtn.setEnabled(true);
+        }
+    }
 }

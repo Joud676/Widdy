@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -9,13 +8,15 @@
     <!-- Top Bar -->
     <LinearLayout
         android:id="@+id/topBar"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="20dp"
         android:gravity="center_vertical"
+        android:layoutDirection="ltr"
         app:layout_constraintTop_toTopOf="parent"
-        android:layoutDirection="ltr">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <ImageView
             android:id="@+id/backButton"
@@ -35,21 +36,60 @@
             android:textSize="22sp"
             android:textColor="#333333"
             android:fontFamily="@font/beiruti_bold"
-            android:gravity="center"/>
+            android:gravity="center" />
 
         <View
             android:layout_width="32dp"
-            android:layout_height="32dp"/>
+            android:layout_height="32dp" />
+    </LinearLayout>
+
+    <!-- Empty State -->
+    <LinearLayout
+        android:id="@+id/emptyState"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="40dp"
+        app:layout_constraintTop_toBottomOf="@id/topBar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="لا توجد قوائم بعد"
+            android:textSize="18sp"
+            android:textColor="#666666"
+            android:fontFamily="@font/beiruti_bold"
+            android:layout_marginBottom="16dp" />
+
+        <Button
+            android:id="@+id/btnCreateNow"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:text="أنشئ قائمتك الآن"
+            android:textSize="16sp"
+            android:textColor="#FFFFFF"
+            android:fontFamily="@font/beiruti_extrabold"
+            android:backgroundTint="@color/pink2"
+            app:cornerRadius="16dp"
+            android:paddingStart="32dp"
+            android:paddingEnd="32dp" />
     </LinearLayout>
 
     <!-- RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvAllWishlists"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:padding="24dp"
         android:clipToPadding="false"
         app:layout_constraintTop_toBottomOf="@id/topBar"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
