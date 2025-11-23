@@ -80,4 +80,16 @@ public class GiftModel {
     public String getReservedBy() {
         return reservedBy;
     }
+    public boolean getIsReserved() {
+        return isReserved;
+    }
+
+    public void setReserved(boolean reserved) {
+        this.isReserved = reserved;
+    }
+
+    public void setReservedBy(String reservedBy) {
+        this.reservedBy = reservedBy;
+    }
 }
+
