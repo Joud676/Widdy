@@ -7,6 +7,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -39,7 +40,6 @@ public class Login extends AppCompatActivity {
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null && currentUser.isEmailVerified()) {
-            Log.d(TAG, "User already logged in and verified, redirecting to home");
             startActivity(new Intent(Login.this, HomePageActivity.class));
             finish();
             return;
@@ -51,6 +51,9 @@ public class Login extends AppCompatActivity {
         et_email = findViewById(R.id.email_Login);
         et_password = findViewById(R.id.password_Login);
         btnLogin = findViewById(R.id.btnLogin);
+
+        TextView tvForgot = findViewById(R.id.tvForgot);
+        tvForgot.setOnClickListener(v -> forgotPassword());
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -66,6 +69,32 @@ public class Login extends AppCompatActivity {
             Toast.makeText(this, "تحقق من بريدك الإلكتروني لتفعيل الحساب", Toast.LENGTH_LONG).show();
         }
     }
+
+    private void forgotPassword() {
+        String email = et_email.getText().toString().trim();
+
+        if(email.isEmpty()){
+            et_email.setError("الرجاء إدخال الإيميل لإعادة تعيين كلمة المرور");
+            et_email.requestFocus();
+            return;
+        }
+
+        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            et_email.setError("الرجاء إدخال إيميل صحيح");
+            et_email.requestFocus();
+            return;
+        }
+
+        mAuth.sendPasswordResetEmail(email)
+                .addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        Toast.makeText(Login.this, "تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(Login.this, "حدث خطأ: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+
 
     @Override
     protected void onStart() {
