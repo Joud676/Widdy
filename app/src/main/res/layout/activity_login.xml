@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/main"
+    android:fitsSystemWindows="true"
     android:background="@color/background"
     android:layoutDirection="rtl">
 
@@ -13,14 +14,12 @@
         android:layout_height="wrap_content"
         android:padding="24dp">
 
-        <!-- retune button -->
         <ImageView
             android:id="@+id/backBtn"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/arrow_back"
             android:layout_gravity="end" />
-        <!-- الصورة -->
         <ImageView
             android:id="@+id/loginImage"
             android:layout_width="200dp"
@@ -30,7 +29,6 @@
             android:layout_marginTop="12dp"
             android:contentDescription="صورة توضح لوقو تسجيل الدخول" />
 
-        <!-- العنوان الرئيسي -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,7 +39,6 @@
             android:layout_gravity="center"
             android:layout_marginTop="8dp" />
 
-        <!-- الوصف -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -53,7 +50,6 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="20dp" />
 
-        <!-- حقل الإيميل -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="55dp"
@@ -84,7 +80,6 @@
                 android:fontFamily="@font/beiruti_regular" />
         </RelativeLayout>
 
-        <!-- حقل كلمة المرور -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="55dp"
@@ -117,7 +112,6 @@
                 android:autofillHints="" />
         </RelativeLayout>
 
-        <!-- نسيت كلمة المرور -->
         <TextView
             android:id="@+id/tvForgot"
             android:layout_width="wrap_content"
@@ -129,7 +123,6 @@
             android:textSize="14sp"
             android:fontFamily="@font/beiruti_regular" />
 
-        <!-- زر تسجيل الدخول -->
         <Button
             android:id="@+id/btnLogin"
             android:layout_width="match_parent"
@@ -142,7 +135,6 @@
             android:fontFamily="@font/beiruti_bold"
             android:onClick="loginMethod" />
 
-        <!-- زر الدخول كضيف -->
         <Button
             android:id="@+id/btnGuest"
             android:layout_width="match_parent"
@@ -155,7 +147,6 @@
             android:fontFamily="@font/beiruti_bold" />
 
 
-        <!-- إنشاء حساب -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

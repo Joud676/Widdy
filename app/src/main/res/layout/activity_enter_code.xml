@@ -52,24 +52,30 @@
             android:layout_marginTop="8dp"/>
 
 
-        <EditText
-            android:id="@+id/codeInput"
-            style="?attr/materialButtonOutlinedStyle"
-            android:layout_marginTop="30dp"
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="348dp"
-            android:layout_height="56dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
             android:layout_marginEnd="15dp"
-            android:layout_weight="1"
-            android:backgroundTint="#FFFFFF"
-            android:fontFamily="@font/beiruti_extrabold"
-            android:inputType="number"
-            android:hint="أدخل رمز الوصول"
-            android:textColorHint="#a3cad1"
-            android:textColor="#000000"
-            android:textSize="16sp"
-            app:cornerRadius="12dp"
-            app:strokeColor="@color/colorSkipStroke"
-            app:strokeWidth="2dp" />
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxStrokeColor="@color/colorSkipStroke"
+            app:boxStrokeWidth="2dp"
+            app:hintTextColor="#a3cad1">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/codeInput"
+                android:layout_width="323dp"
+                android:layout_height="56dp"
+                android:fontFamily="@font/beiruti_extrabold"
+                android:hint="أدخل رمز الوصول"
+                android:inputType="number"
+                android:textColor="#000000" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
 

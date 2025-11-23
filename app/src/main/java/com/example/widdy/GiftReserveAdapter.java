@@ -44,14 +44,14 @@ public class GiftReserveAdapter extends RecyclerView.Adapter<GiftReserveAdapter.
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         GiftModel gift = giftsList.get(position);
 
-        // 1. اسم الهدية
+        boolean hasDetails = false;
+
         if (gift.getName() != null && !gift.getName().isEmpty()) {
             holder.giftName.setText(gift.getName());
         } else {
             holder.giftName.setText("هدية");
         }
 
-        // 2. صورة الهدية من Firebase
         if (gift.getImageUrl() != null && !gift.getImageUrl().isEmpty()) {
             Glide.with(holder.itemView.getContext())
                     .load(gift.getImageUrl())
@@ -63,15 +63,13 @@ public class GiftReserveAdapter extends RecyclerView.Adapter<GiftReserveAdapter.
             holder.giftImage.setImageResource(R.drawable.welcome_widdy);
         }
 
-        // 3. السعر المتوقع
         if (gift.getExpectedPrice() != null && !gift.getExpectedPrice().isEmpty()) {
-            holder.giftPrice.setText(gift.getExpectedPrice() + " ر.س");
-            holder.priceLayout.setVisibility(View.VISIBLE);
+            holder.giftPrice.setText(gift.getExpectedPrice() + " ريال");
+            holder.giftPrice.setVisibility(View.VISIBLE);
         } else {
-            holder.priceLayout.setVisibility(View.GONE);
+            holder.giftPrice.setVisibility(View.GONE);
         }
 
-        // 4. الوصف
         if (gift.getDescription() != null && !gift.getDescription().isEmpty()) {
             holder.giftDescription.setText(gift.getDescription());
             holder.giftDescription.setVisibility(View.VISIBLE);
@@ -79,33 +77,46 @@ public class GiftReserveAdapter extends RecyclerView.Adapter<GiftReserveAdapter.
             holder.giftDescription.setVisibility(View.GONE);
         }
 
-        // 5. موقع المتجر
         if (gift.getStoreLocation() != null && !gift.getStoreLocation().isEmpty()) {
             holder.giftStore.setText(gift.getStoreLocation());
             holder.storeLayout.setVisibility(View.VISIBLE);
+            hasDetails = true;
         } else {
             holder.storeLayout.setVisibility(View.GONE);
         }
 
-        // 6. رابط المنتج
         if (gift.getProductLink() != null && !gift.getProductLink().isEmpty()) {
             holder.giftLink.setText("عرض المنتج");
             holder.linkLayout.setVisibility(View.VISIBLE);
+            hasDetails = true;
 
-            // فتح الرابط عند الضغط
             holder.linkLayout.setOnClickListener(v -> {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(gift.getProductLink()));
-                holder.itemView.getContext().startActivity(browserIntent);
+                try {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(gift.getProductLink()));
+                    holder.itemView.getContext().startActivity(browserIntent);
+                } catch (Exception e) {
+                    android.widget.Toast.makeText(
+                            holder.itemView.getContext(),
+                            "خطأ في فتح الرابط",
+                            android.widget.Toast.LENGTH_SHORT
+                    ).show();
+                }
             });
         } else {
             holder.linkLayout.setVisibility(View.GONE);
         }
 
-        // 7. الأولوية
+        if (hasDetails) {
+            holder.detailsSection.setVisibility(View.VISIBLE);
+            holder.divider.setVisibility(View.VISIBLE);
+        } else {
+            holder.detailsSection.setVisibility(View.GONE);
+            holder.divider.setVisibility(View.GONE);
+        }
+
         if (gift.getPriority() != null && !gift.getPriority().isEmpty()) {
             String priority = gift.getPriority();
-            if (priority.equals("عالية") || priority.equals("مهم")) {
-                holder.priorityBadge.setText("⭐ " + priority);
+            if (priority.equals("عالية") || priority.equals("مهم") || priority.equals("عالي")) {
                 holder.priorityBadge.setVisibility(View.VISIBLE);
             } else {
                 holder.priorityBadge.setVisibility(View.GONE);
@@ -114,9 +125,7 @@ public class GiftReserveAdapter extends RecyclerView.Adapter<GiftReserveAdapter.
             holder.priorityBadge.setVisibility(View.GONE);
         }
 
-        // 8. حالة الحجز
         if (gift.isReserved()) {
-            // الهدية محجوزة
             holder.reserveButton.setText("محجوزة ✓");
             holder.reserveButton.setEnabled(false);
             holder.reserveButton.setAlpha(0.6f);
@@ -124,24 +133,39 @@ public class GiftReserveAdapter extends RecyclerView.Adapter<GiftReserveAdapter.
                     holder.itemView.getContext().getColorStateList(R.color.grey)
             );
 
-            // إظهار overlay والشارة
             holder.reservedOverlay.setVisibility(View.VISIBLE);
             holder.reservedBadge.setVisibility(View.VISIBLE);
         } else {
-            // الهدية متاحة للحجز
-            holder.reserveButton.setText("احجز الهدية 🎁");
+            String priority = gift.getPriority();
+            if (priority != null && (priority.equals("عالية") || priority.equals("عالي"))) {
+                holder.reserveButton.setText("احجز - أولوية عالية");
+                holder.reserveButton.setBackgroundTintList(
+                        holder.itemView.getContext().getColorStateList(R.color.pink)
+                );
+            } else if (priority != null && priority.equals("متوسطة")) {
+                holder.reserveButton.setText("احجز - أولوية متوسطة");
+                holder.reserveButton.setBackgroundTintList(
+                        holder.itemView.getContext().getColorStateList(R.color.pink2)
+                );
+            } else if (priority != null && priority.equals("منخفضة")) {
+                holder.reserveButton.setText("احجز الهدية");
+                holder.reserveButton.setBackgroundTintList(
+                        holder.itemView.getContext().getColorStateList(R.color.babyPurple)
+                );
+            } else {
+                holder.reserveButton.setText("احجز الهدية");
+                holder.reserveButton.setBackgroundTintList(
+                        holder.itemView.getContext().getColorStateList(R.color.pink2)
+                );
+            }
+
             holder.reserveButton.setEnabled(true);
             holder.reserveButton.setAlpha(1.0f);
-            holder.reserveButton.setBackgroundTintList(
-                    holder.itemView.getContext().getColorStateList(R.color.pink2)
-            );
 
-            // إخفاء overlay والشارة
             holder.reservedOverlay.setVisibility(View.GONE);
             holder.reservedBadge.setVisibility(View.GONE);
         }
 
-        // 9. عند الضغط على زر الحجز
         holder.reserveButton.setOnClickListener(v -> {
             if (onReserveClickListener != null) {
                 onReserveClickListener.onReserveClick(gift);
@@ -158,16 +182,14 @@ public class GiftReserveAdapter extends RecyclerView.Adapter<GiftReserveAdapter.
         ImageView giftImage;
         TextView giftName, giftPrice, giftDescription, giftStore, giftLink, priorityBadge;
         Button reserveButton;
-        View reservedOverlay;
-        LinearLayout reservedBadge, priceLayout, storeLayout, linkLayout;
+        View reservedOverlay, divider;
+        LinearLayout reservedBadge, storeLayout, linkLayout, detailsSection;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            // الصورة
             giftImage = itemView.findViewById(R.id.giftImage);
 
-            // النصوص
             giftName = itemView.findViewById(R.id.giftName);
             giftPrice = itemView.findViewById(R.id.giftPrice);
             giftDescription = itemView.findViewById(R.id.giftDescription);
@@ -175,15 +197,14 @@ public class GiftReserveAdapter extends RecyclerView.Adapter<GiftReserveAdapter.
             giftLink = itemView.findViewById(R.id.giftLink);
             priorityBadge = itemView.findViewById(R.id.priorityBadge);
 
-            // الأزرار والعناصر
             reserveButton = itemView.findViewById(R.id.reserveButton);
             reservedOverlay = itemView.findViewById(R.id.reservedOverlay);
             reservedBadge = itemView.findViewById(R.id.reservedBadge);
+            divider = itemView.findViewById(R.id.divider);
 
-            // الـ Layouts
-            priceLayout = itemView.findViewById(R.id.priceLayout);
             storeLayout = itemView.findViewById(R.id.storeLayout);
             linkLayout = itemView.findViewById(R.id.linkLayout);
+            detailsSection = itemView.findViewById(R.id.detailsSection);
         }
     }
 }

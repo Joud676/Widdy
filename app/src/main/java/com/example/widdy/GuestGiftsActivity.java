@@ -48,7 +48,6 @@ public class GuestGiftsActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
-        // استلام البيانات من EnterCodeActivity
         ownerUserId = getIntent().getStringExtra("ownerId");
         wishlistId = getIntent().getStringExtra("wishlistId");
 
@@ -249,14 +248,12 @@ public class GuestGiftsActivity extends AppCompatActivity {
         ).addOnSuccessListener(unused -> {
             Log.d(TAG, "Gift reserved successfully");
 
-            // تحديث الكائن المحلي
             gift.setReserved(true);
             gift.setReservedBy("ضيف");
 
-            // إعادة تحميل القائمة لإظهار التحديث
             loadGifts();
 
-            Toast.makeText(this, "تم حجز الهدية بنجاح ✅", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "تم حجز الهدية بنجاح ", Toast.LENGTH_SHORT).show();
 
         }).addOnFailureListener(e -> {
             hideLoading();

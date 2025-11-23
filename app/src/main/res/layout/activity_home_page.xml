@@ -45,7 +45,9 @@
                 android:layout_height="33dp"
                 android:src="@drawable/user"
                 android:alpha="0.8"
-                android:contentDescription="User Profile"/>
+                android:contentDescription="User Profile"
+                android:onClick="openProfile"/>
+
         </LinearLayout>
 
         <!-- Middle Icon is bigger (gift icon) -->
@@ -82,7 +84,7 @@
                 android:layout_height="30dp"
                 android:alpha="0.8"
                 android:src="@drawable/settings"
-                android:onClick="openWishlists"
+                android:onClick="openSettings"
                 android:contentDescription="Settings"/>
         </LinearLayout>
 

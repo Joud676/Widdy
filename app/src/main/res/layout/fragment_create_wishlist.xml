@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".CreateWishlistFragment"
     android:id="@+id/main"
+    android:fitsSystemWindows="true"
     android:background="#FAFAFA"
     android:layoutDirection="rtl"
     >

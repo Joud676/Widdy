@@ -42,7 +42,6 @@ public class Login extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        // التحقق من حالة المستخدم
         if (shouldAutoLogin()) {
             navigateToHome();
             return;
@@ -59,7 +58,6 @@ public class Login extends AppCompatActivity {
         TextView tvForgot = findViewById(R.id.tvForgot);
         tvForgot.setOnClickListener(v -> forgotPassword());
 
-        // زر الدخول كضيف
         btnGuest.setOnClickListener(v -> {
             saveGuestMode(true);
             Intent i = new Intent(Login.this, EnterCodeActivity.class);
@@ -82,23 +80,18 @@ public class Login extends AppCompatActivity {
         }
     }
 
-    /**
-     * التحقق من إذا كان يجب تسجيل الدخول تلقائياً
-     */
+
     private boolean shouldAutoLogin() {
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         boolean isGuest = prefs.getBoolean(KEY_IS_GUEST, false);
 
-        // إذا كان المستخدم ضيف، لا ندخله تلقائياً
         if (isGuest) {
             return false;
         }
 
-        // التحقق من وجود مستخدم مسجل ومفعل
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null && currentUser.isEmailVerified()) {
             String savedUser = prefs.getString(KEY_LOGGED_IN_USER, "");
-            // التأكد من أن المستخدم الحالي هو نفسه المستخدم المحفوظ
             if (savedUser.equals(currentUser.getEmail())) {
                 return true;
             }
@@ -107,9 +100,6 @@ public class Login extends AppCompatActivity {
         return false;
     }
 
-    /**
-     * حفظ حالة الضيف
-     */
     private void saveGuestMode(boolean isGuest) {
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         prefs.edit()
@@ -118,9 +108,6 @@ public class Login extends AppCompatActivity {
                 .apply();
     }
 
-    /**
-     * حفظ بيانات المستخدم المسجل
-     */
     private void saveLoggedInUser(String email) {
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         prefs.edit()
@@ -129,9 +116,6 @@ public class Login extends AppCompatActivity {
                 .apply();
     }
 
-    /**
-     * الانتقال للصفحة الرئيسية
-     */
     private void navigateToHome() {
         startActivity(new Intent(Login.this, HomePageActivity.class));
         finish();
@@ -165,7 +149,6 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        // لا نفعل شيء هنا، التحقق يتم في onCreate فقط
     }
 
     public void sinupPage(View view){

@@ -53,16 +53,19 @@ public class HomePageActivity extends AppCompatActivity {
 
 
     public void openProfile(View view) {
-    }
-
-    public void openWishlists(View view) {
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_container, new AllWishlistsFragment())
+                .replace(R.id.fragment_container, new ProfileFragment())
                 .addToBackStack(null)
                 .commit();
     }
-
+    public void openSettings(View view) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, new SettingsFragment())
+                .addToBackStack(null)
+                .commit();
+    }
     public void openWishlistDetails(String wishlistDocId) {
         WishlistDetailsFragment fragment = new WishlistDetailsFragment();
         Bundle args = new Bundle();
@@ -99,5 +102,12 @@ public class HomePageActivity extends AppCompatActivity {
                 .commit();
     }
 
+    public void openWishlists(View view) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, new AllWishlistsFragment())
+                .addToBackStack(null)
+                .commit();
+    }
 
 }

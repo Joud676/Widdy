@@ -40,12 +40,10 @@ public class EnterCodeActivity extends AppCompatActivity {
 
             checkCodeButton.setEnabled(false);
 
-            // 🛑 نبدأ المحاولة الأولى
             attemptSearchAsLong(code);
         });
     }
 
-    // المحاولة رقم 1: البحث كرقم (Long)
     private void attemptSearchAsLong(String codeStr) {
         Log.d(TAG, "Attempt 1: Searching as LONG for: " + codeStr);
 
@@ -53,7 +51,6 @@ public class EnterCodeActivity extends AppCompatActivity {
         try {
             codeLong = Long.parseLong(codeStr);
         } catch (NumberFormatException e) {
-            // لو ما قبل يتحول رقم، نجرب نبحث كنص مباشرة
             attemptSearchAsString(codeStr);
             return;
         }
@@ -77,7 +74,6 @@ public class EnterCodeActivity extends AppCompatActivity {
                 });
     }
 
-    // المحاولة رقم 2: البحث كنص (String)
     private void attemptSearchAsString(String codeStr) {
         Log.d(TAG, "Attempt 2: Searching as STRING for: " + codeStr);
 
@@ -103,7 +99,6 @@ public class EnterCodeActivity extends AppCompatActivity {
                 });
     }
 
-    // معالجة النتيجة ونقل المستخدم
     private void processResult(QueryDocumentSnapshot doc) {
         checkCodeButton.setEnabled(true);
         String wishlistId = doc.getId();
@@ -117,13 +112,11 @@ public class EnterCodeActivity extends AppCompatActivity {
             intent.putExtra("wishlistId", wishlistId);
             intent.putExtra("guest", true);
             startActivity(intent);
-//            finish();
         } else {
             Toast.makeText(this, "خطأ في هيكل البيانات", Toast.LENGTH_SHORT).show();
         }
     }
 
-    // طباعة كل شيء في الكونسول عشان نعرف إيش المشكلة
     private void debugPrintAllWishlists() {
         Log.d(TAG, "DEBUGGING: Fetching ANY wishlist to see data types...");
         db.collectionGroup("wishlists").limit(3).get()
