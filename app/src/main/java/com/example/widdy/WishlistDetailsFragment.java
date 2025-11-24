@@ -1,5 +1,6 @@
 package com.example.widdy;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,7 +32,7 @@ public class WishlistDetailsFragment extends Fragment {
 
     private static final String TAG = "WishlistDetails";
 
-    private ImageView backButton, wishlistCoverImage, deleteWishlistButton, editWishlistButton;
+    private ImageView backButton, wishlistCoverImage, deleteWishlistButton, editWishlistButton, shareWishlistButton;
     private TextView wishlistName, wishlistDate, accessCode, giftCount;
     private RecyclerView giftsRecyclerView;
     private LinearLayout emptyState;
@@ -105,6 +106,8 @@ public class WishlistDetailsFragment extends Fragment {
         });
 
         deleteWishlistButton.setOnClickListener(v -> showDeleteDialog());
+
+        shareWishlistButton.setOnClickListener(v -> shareWishlist());
     }
 
     private void initViews(View view) {
@@ -120,6 +123,7 @@ public class WishlistDetailsFragment extends Fragment {
         giftsRecyclerView = view.findViewById(R.id.giftsRecyclerView);
         emptyState = view.findViewById(R.id.emptyState);
         addGiftButton = view.findViewById(R.id.addGiftButton);
+        shareWishlistButton = view.findViewById(R.id.shareWishlistButton);
         editWishlistButton = view.findViewById(R.id.editWishlistButton);
         deleteWishlistButton = view.findViewById(R.id.deleteWishlistButton);
 
@@ -343,6 +347,38 @@ public class WishlistDetailsFragment extends Fragment {
                     Toast.makeText(getContext(), "فشل حذف الهدية", Toast.LENGTH_SHORT).show();
                 });
     }
+
+    // share wishlist method
+    private void shareWishlist() {
+        if (getContext() == null) return;
+
+        // message data
+        String name = wishlistName.getText().toString();
+        String code = accessCode.getText().toString();
+        String appLink = "Link";
+
+        // create share message
+        String shareMessage = "مرحباً، يسعدني دعوتكم للاطلاع على قائمة الأمنيات الخاصة بمناسبة '" + name + "'.\n" +
+                "لاستعراض الهدايا استخدم:\n" +
+                "كود المشاركة: " + code + "\n" +
+                "الرابط المباشر للتطبيق: " + appLink;
+
+
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND); // Intent.ACTION_SEND
+        sendIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+        sendIntent.setType("text/plain");
+
+        // choose app interface
+        Intent shareChooser = Intent.createChooser(sendIntent, "شارك قائمة الأمنيات عبر...");
+
+        if (shareChooser.resolveActivity(getContext().getPackageManager()) != null) {
+            getContext().startActivity(shareChooser);
+        } else {
+            Toast.makeText(getContext(), "لم يتم العثور على تطبيقات للمشاركة.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     @Override
     public void onResume() {
         super.onResume();
