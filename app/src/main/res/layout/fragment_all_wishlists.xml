@@ -43,9 +43,7 @@
             android:textColor="#333333"
             android:textSize="22sp" />
 
-        <View
-            android:layout_width="32dp"
-            android:layout_height="32dp" />
+
     </LinearLayout>
 
     <LinearLayout

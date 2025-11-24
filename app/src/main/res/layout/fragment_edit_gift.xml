@@ -31,18 +31,16 @@
             android:contentDescription="Back"/>
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="411dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="تعديل الهدية"
-            android:textSize="22sp"
-            android:textColor="#333333"
             android:fontFamily="@font/beiruti_bold"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:text="تعديل الهدية"
+            android:textColor="#333333"
+            android:textSize="22sp" />
 
-        <View
-            android:layout_width="32dp"
-            android:layout_height="32dp"/>
+
     </LinearLayout>
 
     <!-- Scrollable Content -->

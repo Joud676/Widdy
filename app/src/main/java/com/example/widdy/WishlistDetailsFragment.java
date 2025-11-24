@@ -245,13 +245,52 @@ public class WishlistDetailsFragment extends Fragment {
     }
 
     private void onEditGift(GiftModel gift) {
-        if (getActivity() instanceof HomePageActivity) {
-            ((HomePageActivity) getActivity()).openEditGift(wishlistDocId, gift.getID());
-        }
+        checkGiftReservationStatus(gift.getID(), isReserved -> {
+            if (isReserved) {
+                Toast.makeText(getContext(), "لا يمكن تعديل هدية محجوزة", Toast.LENGTH_SHORT).show();
+            } else {
+                if (getActivity() instanceof HomePageActivity) {
+                    ((HomePageActivity) getActivity()).openEditGift(wishlistDocId, gift.getID());
+                }
+            }
+        });
     }
 
     private void onDeleteGift(GiftModel gift) {
-        showDeleteGiftDialog(gift);
+        checkGiftReservationStatus(gift.getID(), isReserved -> {
+            if (isReserved) {
+                Toast.makeText(getContext(), "لا يمكن حذف هدية محجوزة", Toast.LENGTH_SHORT).show();
+            } else {
+                showDeleteGiftDialog(gift);
+            }
+        });
+    }
+
+    private void checkGiftReservationStatus(String giftId, ReservationCallback callback) {
+        db.collection("users")
+                .document(userId)
+                .collection("wishlists")
+                .document(wishlistDocId)
+                .collection("gifts")
+                .document(giftId)
+                .get()
+                .addOnSuccessListener(doc -> {
+                    if (doc.exists()) {
+                        Boolean isReserved = doc.getBoolean("isReserved");
+                        callback.onResult(isReserved != null && isReserved);
+                    } else {
+                        callback.onResult(false);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "Error checking reservation status: " + e.getMessage());
+                    Toast.makeText(getContext(), "خطأ في التحقق من حالة الهدية", Toast.LENGTH_SHORT).show();
+                    callback.onResult(false);
+                });
+    }
+
+    private interface ReservationCallback {
+        void onResult(boolean isReserved);
     }
 
     private void showDeleteDialog() {
@@ -307,6 +346,7 @@ public class WishlistDetailsFragment extends Fragment {
                     Toast.makeText(getContext(), "خطأ في حذف الهدايا", Toast.LENGTH_SHORT).show();
                 });
     }
+
     private void showDeleteGiftDialog(GiftModel gift) {
         View dialogView = LayoutInflater.from(requireContext())
                 .inflate(R.layout.dialog_confirm_delete, null);
@@ -328,7 +368,7 @@ public class WishlistDetailsFragment extends Fragment {
 
         dialog.show();
     }
-    // ميثود لحذف الهدية
+
     private void deleteGift(GiftModel gift) {
         db.collection("users")
                 .document(userId)
@@ -339,7 +379,6 @@ public class WishlistDetailsFragment extends Fragment {
                 .delete()
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(getContext(), "تم حذف الهدية بنجاح", Toast.LENGTH_SHORT).show();
-                    // Reload the gifts list to reflect the deletion
                     loadGifts();
                 })
                 .addOnFailureListener(e -> {
@@ -348,28 +387,23 @@ public class WishlistDetailsFragment extends Fragment {
                 });
     }
 
-    // share wishlist method
     private void shareWishlist() {
         if (getContext() == null) return;
 
-        // message data
         String name = wishlistName.getText().toString();
         String code = accessCode.getText().toString();
         String appLink = "Link";
 
-        // create share message
         String shareMessage = "مرحباً، يسعدني دعوتكم للاطلاع على قائمة الأمنيات الخاصة بمناسبة '" + name + "'.\n" +
                 "لاستعراض الهدايا استخدم:\n" +
                 "كود المشاركة: " + code + "\n" +
                 "الرابط المباشر للتطبيق: " + appLink;
 
-
         Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND); // Intent.ACTION_SEND
+        sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
         sendIntent.setType("text/plain");
 
-        // choose app interface
         Intent shareChooser = Intent.createChooser(sendIntent, "شارك قائمة الأمنيات عبر...");
 
         if (shareChooser.resolveActivity(getContext().getPackageManager()) != null) {

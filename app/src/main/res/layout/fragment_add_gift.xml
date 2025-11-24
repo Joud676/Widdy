@@ -40,9 +40,6 @@
             android:fontFamily="@font/beiruti_bold"
             android:gravity="center"/>
 
-        <View
-            android:layout_width="32dp"
-            android:layout_height="32dp"/>
     </LinearLayout>
 
     <!-- Scrollable Content -->
